@@ -1,0 +1,18 @@
+name: Build and publish docker images to registry
+
+on:
+  push:
+    branches:
+      master
+
+jobs:
+  publish-image:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Build and Publish Query Checking Docker Image
+      run: ./check-queries/publish.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
