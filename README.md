@@ -1,7 +1,8 @@
 # Actions for Learning Lab CodeQL Courses
 
-This repository provides GitHub Actions for use in repositories that are created
-as part of CodeQL courses on [Learning Lab](https://lab.github.com/).
+This repository provides Docker images and GitHub Actions
+for use in repositories that are created as part of CodeQL courses
+on [Learning Lab](https://lab.github.com/).
 
 Usage of this repository is subject to the
 [GitHub CodeQL Terms and Conditions](https://securitylab.github.com/tools/codeql/license).
