@@ -15,7 +15,9 @@ to add the queries.
 When a user's results are incorrect,
 the comment will include details of which results are missing,
 and which are superfluous,
-including links to the lines of source code on GitHub when possible.
+including links to the lines of source code on GitHub when possible:
+
+**Screenshot:**
 
 ![](docs/comment_screenshot.png)
 
