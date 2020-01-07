@@ -13,7 +13,7 @@ if docker pull $IMAGE_TAG; then
 else
   echo "image has not yet been published. building and publishing..."
 
-  docker build -t $IMAGE_TAG check-queries
+  docker build -t $IMAGE_TAG .
 
   docker push $IMAGE_TAG
 fi

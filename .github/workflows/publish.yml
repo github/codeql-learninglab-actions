@@ -13,7 +13,7 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Build and Publish Query Checking Docker Image
-      run: ./check-queries/publish.sh
+      run: cd check-queries && ./publish.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   publish-courses-cpp-ctf-segv:
@@ -24,6 +24,6 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Build and Publish Course Docker Image
-      run: ./courses/cpp/ctf-segv/image/publish.sh
+      run: cd courses/cpp/ctf-segv/image && ./publish.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
