@@ -17,6 +17,8 @@ the comment will include details of which results are missing,
 and which are superfluous,
 including links to the lines of source code on GitHub when possible.
 
+![](docs/comment_screenshot.png)
+
 ## Usage
 
 TODO
