@@ -1,0 +1,6 @@
+"alloca","URL for alloca","col1"
+"#define alloca(size) __builtin_alloca (size)","file:///opt/src/stdlib/alloca.h:35:1:35:45","alloca macro"
+"#define alloca __builtin_alloca","file:///opt/src/intl/dcigettext.c:31:1:31:32","alloca macro"
+"#define alloca __builtin_alloca","file:///opt/src/intl/localealias.c:37:1:37:32","alloca macro"
+"#define alloca __builtin_alloca","file:///opt/src/stdlib/gmp-impl.h:23:1:23:31","alloca macro"
+"#define alloca __builtin_alloca","file:///opt/src/io/ftw.c:25:1:25:32","alloca macro"

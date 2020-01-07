@@ -6,7 +6,7 @@ on:
       master
 
 jobs:
-  publish-image:
+  publish-check-queries-image:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -14,5 +14,16 @@ jobs:
 
     - name: Build and Publish Query Checking Docker Image
       run: ./check-queries/publish.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  publish-courses-cpp-ctf-segv:
+    needs: publish-check-queries-image
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Build and Publish Course Docker Image
+      run: ./courses/cpp/ctf-segv/image/publish.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
