@@ -21,14 +21,51 @@ including links to the lines of source code on GitHub when possible:
 
 ![](docs/comment_screenshot.png)
 
-## Usage
+## Creating your own course
+
+There are two main components to any Learning Lab course for CodeQL that uses
+the components in this repository:
+
+* **Query Checking Action:**
+
+  Each course has its own GitHub Action that is designed to be used in workflows
+  that run when a course participant pushes new commits to their repo.
+  The action will check which queries have changed in the push,
+  and run the queries that it recognizes as part of the course
+  (based on the filename).
+
+  After running the queries,
+  the action will check the results against a CSV file of expected results.
+  It will then post a comment on the commit,
+  detailing whether each query produced the correct results or not.
+  And if not,
+  it will include details of which results are missing,
+  and which results are unexpected.
+
+  These actions are bundled using Docker,
+  and made available using
+  [GitHub Packages](https://github.com/features/packages).
+
+* **Learning Lab Course:**
+
+  This is the course itself.
+  It creates the initial repository the participant will use for their course,
+  posts instructions as GitHub issues,
+  and listens for comments posted by the GitHub action to know when the user
+  has completed the current task correctly,
+  and is ready to advance to the next one.
+
+### Creating a GitHub Action
+
+TODO
+
+### Contributing your GitHub Action to this repository
 
 TODO
 
 ## Example Courses
 
-There are currently no published courses that use this repository,
-when this changes, we'll add a list here.
+* [GitHub Security Lab CTF 1: SEGV hunt](courses/cpp/ctf-segv)
 
 Feel free to add your own courses to this list!
 See [CONTRIBUTING.md](CONTRIBUTING.md).
