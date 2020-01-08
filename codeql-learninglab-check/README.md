@@ -60,4 +60,6 @@ Once you have updated this base image,
 you probably want to also update a number of the courses to use this updated
 image.
 
-See the main [CONTRIBUTING.md](../CONTRIBUTING.md) file for more info.
+See the main
+[CONTRIBUTING.md](../CONTRIBUTING.md#courses-included-in-the-courses-directory)
+file for more info.
