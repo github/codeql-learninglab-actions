@@ -32,3 +32,34 @@ Here are a few things you can do that will increase the likelihood of your pull 
 - [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)
 - [Using Pull Requests](https://help.github.com/articles/about-pull-requests/)
 - [GitHub Help](https://help.github.com)
+
+## Updating and Releasing
+
+### :whale: `codeql-learninglab-check` docker image
+
+The top-level dependency is the
+[`codeql-learninglab-check`](codeql-learninglab-check) docker image.
+To update its dependencies,
+or release a new version of it,
+please see [the README for that docker image](codeql-learninglab-check).
+
+### Courses included in the `courses/` directory
+
+Following changes to the [`codeql-learninglab-check`](codeql-learninglab-check)
+base docker image,
+you'll likely want to update each of the individual courses to use the latest
+version.
+(This will be neccesary for users to take advantage of the latest changes to
+the CodeQL libraries or tools).
+You can do this by updating the `FROM` line in the respective `Dockerfile`.
+
+Changes to the courses,
+including changes to the `Dockerfile`,
+the configuration,
+or any of the expected results `.csv` files are automatically published when
+pushes are made to `master`.
+This is done by the respective `publish.sh` file for each course.
+
+We generally want to ensure that we always push the version `latest` so that
+changes can immediately be used by all course participants,
+and we don't need to update any references to versions elsewhere.

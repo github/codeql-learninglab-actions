@@ -6,18 +6,18 @@ on:
       master
 
 jobs:
-  publish-check-queries-image:
+  publish-codeql-learninglab-check:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v1
 
     - name: Build and Publish Query Checking Docker Image
-      run: cd check-queries && ./publish.sh
+      run: cd codeql-learninglab-check && ./publish.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   publish-courses-cpp-ctf-segv:
-    needs: publish-check-queries-image
+    needs: publish-codeql-learninglab-check
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
