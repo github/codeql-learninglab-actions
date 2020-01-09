@@ -103,24 +103,56 @@ function isConfig(config: any): config is Config {
       commit_sha: event.after
     });
 
-  // Calculate which file paths have changed in this push
-  const {stdout: filesChangedRaw} = await execFile('git', ['diff', '--name-only', `${event.before}..${event.after}`]);
-  const queriesChanged = new Set(filesChangedRaw.split('\n')
-    .map(s => s.trim())
-    .filter(s => s.endsWith('.ql')));
-  console.log(`${pluralize(queriesChanged.size, 'query')} updated in this push`);
-  comment += `${pluralize(queriesChanged.size, 'query')} changed `
-  comment += `[between \`${event.before.substr(0, 7)}\` and \`${event.after.substr(0, 7)}\`]`
-  comment += `(${event.repository.html_url}/compare/${event.before}...${event.after}) after push to \`${event.ref}\``;
-  if (queriesChanged.size > 0) {
-    comment += ':\n';
-    for (const query of queriesChanged) {
-      console.log(`- ${query}`);
-      const exists = await access(query, fs.constants.R_OK).then(() => true, () => false);
-      comment += `* \`${query}\`${exists ? '' : ' *(deleted)*'}\n`;
+  /**
+   * File paths changed by the user (if we're not just running all queries)
+   *
+   * This is used to reduce the number of queries we need to run to only those
+   * that currently interest the user.
+   */
+  const queriesChanged = new Set<string>();
+  let unableToGetChangedQueries = false;
+
+  if (RUN_ALL) {
+
+    /*
+    * There are a few different ways in which we may determine which queries
+    * are currently interesting to the user, in decreasing usefulness:
+    *
+    * * If the user just pushed to a branch that currently has an open pull
+    *   request, the interesting queries are those that are changed in the pull
+    *   request (and not just those changed in the most recent push).
+    * * If there's no active pull request, then what's probably most interesting
+    *   are the queries that have changed in the last push (i.e. between the
+    *   previous head and the new head)
+    * * If that's not possible (e.g. the push could have created the branch for
+    *   the first time, and so there is no "previous ref"), then comparing this
+    *   branch to the default branch of a repo will probably give the most
+    *   accurate results.
+    * * Finally, if all else fails (e.g. the push was the initial push to the
+    *   default branch of the repo), then we should just run every query we
+    *   recognize (as if RUN_ALL was true). We do this by setting
+    *   unableToGetChangedQueries to true.
+    */
+
+    const {stdout: filesChangedRaw} = await execFile('git', ['diff', '--name-only', `${event.before}..${event.after}`]);
+    filesChangedRaw.split('\n')
+      .map(s => s.trim())
+      .filter(s => s.endsWith('.ql'))
+      .forEach(s => queriesChanged.add(s));
+    console.log(`${pluralize(queriesChanged.size, 'query')} updated in this push`);
+    comment += `${pluralize(queriesChanged.size, 'query')} changed `
+    comment += `[between \`${event.before.substr(0, 7)}\` and \`${event.after.substr(0, 7)}\`]`
+    comment += `(${event.repository.html_url}/compare/${event.before}...${event.after}) after push to \`${event.ref}\``;
+    if (queriesChanged.size > 0) {
+      comment += ':\n';
+      for (const query of queriesChanged) {
+        console.log(`- ${query}`);
+        const exists = await access(query, fs.constants.R_OK).then(() => true, () => false);
+        comment += `* \`${query}\`${exists ? '' : ' *(deleted)*'}\n`;
+      }
+    } else {
+      comment += '\n';
     }
-  } else {
-    comment += '\n';
   }
 
   // Work out which queries to run, based on config and changed & existing queries
@@ -128,7 +160,7 @@ function isConfig(config: any): config is Config {
   for (const query of Object.keys(config.expectedResults)) {
     const exists = await access(query, fs.constants.R_OK).then(() => true, () => false);
     // Run the query if either it's changed, or runAll is true
-    if (exists && (RUN_ALL || queriesChanged.has(query))) {
+    if (exists && (RUN_ALL || unableToGetChangedQueries || queriesChanged.has(query))) {
       queriesToRun.push(query);
     }
   }
