@@ -292,7 +292,6 @@ function isConfig(config: any): config is Config {
     const result = await execFile('codeql', ['query', 'run', '-d', databasePath, query, '-o', bqrsOutput]);
     console.log(result.stderr);
     console.log(result.stdout);
-    `codeql bqrs decode --entities=url,string output/results.bqrs --format=csv --output=output/results.csv`
     const csvOutput = csvPath(query);
     await execFile('codeql', ['bqrs', 'decode', '--entities=url,string', bqrsOutput, '--format=csv', `--output=${csvOutput}`]);
     const expectedCSV = path.join(CONFIG_PATH, config.expectedResults[query]);
