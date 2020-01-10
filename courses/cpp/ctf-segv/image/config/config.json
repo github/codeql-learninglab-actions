@@ -2,7 +2,8 @@
   "snapshotPath": "bminor_glibc_3332218",
   "locationPaths": "https://github.com/bminor/glibc/blob/333221862ecbebde60dd16e7ca17d26444e62f50{path}#L{line-start}-L{line-end}",
   "expectedResults": {
-    "0.0_alloca_definition.ql": "0.0_alloca_definition.csv",
+    "0.0_function_definitions.ql": "0.0_function_definitions.csv",
+    "0.1_alloca_definition.ql": "0.1_alloca_definition.csv",
     "1.0_alloca.ql": "1.0_alloca.csv",
     "1.1_alloca_ignore_small.ql": "1.1_alloca_ignore_small.csv",
     "2.0_use_alloca.ql": "2.0_use_alloca.csv",
