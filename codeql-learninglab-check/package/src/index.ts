@@ -114,7 +114,7 @@ function isConfig(config: any): config is Config {
 
   if (RUN_ALL) {
 
-    /*
+   /*
     * There are a few different ways in which we may determine which queries
     * are currently interesting to the user, in decreasing usefulness:
     *
@@ -133,6 +133,22 @@ function isConfig(config: any): config is Config {
     *    recognize (as if RUN_ALL was true). We do this by setting
     *    unableToGetChangedQueries to true.
     */
+
+    /*
+     * Before we can run `git fetch` in the CWD,
+     * we need to add a new remote that we're authenticated with
+     */
+    /**
+     * The name we'll use for our new remote,
+     * something that's reasonably unique.
+     * Though we will delete this remote later.
+     */
+    const remoteName = event.after;
+    console.log(`Adding remote ${remoteName}`);
+    await execFile('git', [
+      'remote', 'add', remoteName,
+      `https://x-access-token:${GITHUB_TOKEN}@github.com/${event.repository.full_name}.git`
+    ]);
 
     /**
      * The output from a successful call to `git diff --name-only`
@@ -160,11 +176,14 @@ function isConfig(config: any): config is Config {
           const pr = pulls.data[0];
           const baseBranch = pr.base.ref;
           // Ensure we have the commits from that ref
-          await execFile('git', ['fetch', 'origin', baseBranch]);
+          await execFile('git', ['fetch', remoteName, baseBranch]);
+          const baseSha = await (await execFile(
+            'git', ['rev-parse', `refs/remotes/${remoteName}/${baseBranch}`]
+          )).stdout.trim();
           diff = {
-            baseSha: baseBranch,
+            baseSha,
             filesChangedRaw: (await execFile(
-              'git', ['diff', '--name-only', `origin/${baseBranch}..${event.after}`]
+              'git', ['diff', '--name-only', `${baseSha}..${event.after}`]
             )).stdout
           }
         } else {
@@ -202,8 +221,9 @@ function isConfig(config: any): config is Config {
 
     if (!diff) {
       try {
+        await execFile('git', ['fetch', remoteName, 'HEAD']);
         const defaultBranchSha = await (await execFile(
-          'git', ['rev-parse', 'refs/remotes/origin/HEAD']
+          'git', ['rev-parse', `refs/remotes/${remoteName}/HEAD`]
         )).stdout.trim();
         const result = await execFile(
           'git', ['diff', '--name-only', `${defaultBranchSha}..${event.after}`]
@@ -218,6 +238,9 @@ function isConfig(config: any): config is Config {
         console.log('Failed to diff against default branch');
       }
     }
+
+    console.log(`Removing remote ${remoteName}`);
+    await execFile('git', ['remote', 'remove', remoteName]);
 
     if (!diff) {
       unableToGetChangedQueries = true;
