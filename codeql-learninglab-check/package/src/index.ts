@@ -118,40 +118,106 @@ function isConfig(config: any): config is Config {
     * There are a few different ways in which we may determine which queries
     * are currently interesting to the user, in decreasing usefulness:
     *
-    * * If the user just pushed to a branch that currently has an open pull
-    *   request, the interesting queries are those that are changed in the pull
-    *   request (and not just those changed in the most recent push).
-    * * If there's no active pull request, then what's probably most interesting
-    *   are the queries that have changed in the last push (i.e. between the
-    *   previous head and the new head)
-    * * If that's not possible (e.g. the push could have created the branch for
-    *   the first time, and so there is no "previous ref"), then comparing this
-    *   branch to the default branch of a repo will probably give the most
-    *   accurate results.
-    * * Finally, if all else fails (e.g. the push was the initial push to the
-    *   default branch of the repo), then we should just run every query we
-    *   recognize (as if RUN_ALL was true). We do this by setting
-    *   unableToGetChangedQueries to true.
+    * 1. If the user just pushed to a branch that currently has an open pull
+    *    request, the interesting queries are those that are changed in the pull
+    *    request (and not just those changed in the most recent push).
+    * 2. If there's no active pull request, then what's probably most
+    *    interesting are the queries that have changed in the last push (i.e.
+    *    between the previous head and the new head)
+    * 3. If that's not possible (e.g. the push could have created the branch for
+    *    the first time, and so there is no "previous ref"), then comparing this
+    *    branch to the default branch of a repo will probably give the most
+    *    accurate results.
+    * 4. Finally, if all else fails (e.g. the push was the initial push to the
+    *    default branch of the repo), then we should just run every query we
+    *    recognize (as if RUN_ALL was true). We do this by setting
+    *    unableToGetChangedQueries to true.
     */
 
-    const {stdout: filesChangedRaw} = await execFile('git', ['diff', '--name-only', `${event.before}..${event.after}`]);
-    filesChangedRaw.split('\n')
+    /**
+     * The output from a successful call to `git diff --name-only`
+     */
+    let filesChangedRaw: string | null = null;
+
+    // Try (1) - find any PR associated with the branch of this push
+
+    // Get branch name
+    // This is expected to fail if e.g. the push was to a tag not a branch
+    const branch = /^refs\/heads\/(.*)$/.exec(event.ref)?.[1];
+
+    if (branch) {
+      try {
+        const pulls = await api.pulls.list({
+          owner: event.repository.owner.login,
+          repo: event.repository.name,
+          head: `${event.repository.owner.login}:${branch}`
+        });
+        if (pulls && pulls.data.length > 0) {
+          // Just use first PR
+          const pr = pulls.data[0];
+          const baseBranch = pr.base.ref;
+          // Ensure we have the commits from that ref
+          await execFile('git', ['fetch', 'origin', baseBranch]);
+          filesChangedRaw = (await execFile('git', ['diff', '--name-only', `origin/${baseBranch}..${event.after}`])).stdout;
+        } else {
+          console.log('No pull requests associated with the current push');
+        }
+      } catch (err) {
+        console.warn(err);
+        console.log(`Failed to use PRs to calculate changed files branch ${branch}.`);
+      }
+    } else {
+      console.log(
+        'Push was not for a branch, calculating changed files differently'
+      );
+    }
+
+    // Try (2) - see what files have changed in the last push
+
+    if (filesChangedRaw === null) {
+      const result = await execFile('git', ['diff', '--name-only', `${event.before}..${event.after}`])
+        .catch(err => {
+          console.warn(err);
+          console.log('Failed to get diff for push');
+        });
+      if (result)
+        filesChangedRaw = (await execFile('git', ['diff', '--name-only', `${event.before}..${event.after}`])).stdout;
+    }
+
+    // Try (3) - see how the current HEAD differs from the default branch
+
+    if (filesChangedRaw === null) {
+      const result = await execFile('git', ['diff', '--name-only', `refs/remotes/origin/HEAD..${event.after}`])
+        .catch(err => {
+          console.warn(err);
+          console.log('Failed to diff against default branch');
+        });
+      if (result)
+        filesChangedRaw = (await execFile('git', ['diff', '--name-only', `${event.before}..${event.after}`])).stdout;
+    }
+
+    if (filesChangedRaw === null) {
+      unableToGetChangedQueries = true;
+    } else {
+      // We have successfully obtained the diff for this push
+      filesChangedRaw.split('\n')
       .map(s => s.trim())
       .filter(s => s.endsWith('.ql'))
       .forEach(s => queriesChanged.add(s));
-    console.log(`${pluralize(queriesChanged.size, 'query')} updated in this push`);
-    comment += `${pluralize(queriesChanged.size, 'query')} changed `
-    comment += `[between \`${event.before.substr(0, 7)}\` and \`${event.after.substr(0, 7)}\`]`
-    comment += `(${event.repository.html_url}/compare/${event.before}...${event.after}) after push to \`${event.ref}\``;
-    if (queriesChanged.size > 0) {
-      comment += ':\n';
-      for (const query of queriesChanged) {
-        console.log(`- ${query}`);
-        const exists = await access(query, fs.constants.R_OK).then(() => true, () => false);
-        comment += `* \`${query}\`${exists ? '' : ' *(deleted)*'}\n`;
+      console.log(`${pluralize(queriesChanged.size, 'query')} updated in this push`);
+      comment += `${pluralize(queriesChanged.size, 'query')} changed `
+      comment += `[between \`${event.before.substr(0, 7)}\` and \`${event.after.substr(0, 7)}\`]`
+      comment += `(${event.repository.html_url}/compare/${event.before}...${event.after}) after push to \`${event.ref}\``;
+      if (queriesChanged.size > 0) {
+        comment += ':\n';
+        for (const query of queriesChanged) {
+          console.log(`- ${query}`);
+          const exists = await access(query, fs.constants.R_OK).then(() => true, () => false);
+          comment += `* \`${query}\`${exists ? '' : ' *(deleted)*'}\n`;
+        }
+      } else {
+        comment += '\n';
       }
-    } else {
-      comment += '\n';
     }
   }
 
