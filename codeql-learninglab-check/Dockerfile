@@ -20,10 +20,13 @@ USER root
 RUN apt-get install -y git curl
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get install -y nodejs
-USER codeql
+
+# Temporarily disable running script as user codeql as we're unable to run
+# certain git commands due to permissions
+# USER codeql
 
 # Add CodeQL repo
-RUN git clone https://github.com/Semmle/ql.git ~/codeql-home/codeql-repo
+RUN git clone https://github.com/Semmle/ql.git /home/codeql/codeql-home/codeql-repo
 
 WORKDIR /home/codeql/codeql-home/codeql-repo/
 RUN git checkout ed97be459fed23c9f07a0e1895176bad7ba6c686
