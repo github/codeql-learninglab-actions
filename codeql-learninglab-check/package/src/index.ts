@@ -1,6 +1,7 @@
 import * as child_process from 'child_process'
 import * as fs from 'fs';
 import * as path from 'path';
+import {homedir} from 'os';
 import { promisify } from 'util';
 import * as core from '@actions/core';
 import Octokit from '@octokit/rest';
@@ -14,6 +15,7 @@ const access = promisify(fs.access);
 const execFile = promisify(child_process.execFile);
 const mkdir = promisify(fs.mkdir);
 const readFile = promisify(fs.readFile);
+const writeFile = promisify(fs.writeFile);
 
 /**
  * Must be "true" if all queries should be run (and not just changed queries)
@@ -136,19 +138,13 @@ function isConfig(config: any): config is Config {
 
     /*
      * Before we can run `git fetch` in the CWD,
-     * we need to add a new remote that we're authenticated with
+     * we need to add the authentication details for the remote for https
      */
-    /**
-     * The name we'll use for our new remote,
-     * something that's reasonably unique.
-     * Though we will delete this remote later.
-     */
-    const remoteName = event.after;
-    console.log(`Adding remote ${remoteName}`);
-    await execFile('git', [
-      'remote', 'add', remoteName,
-      `https://x-access-token:${GITHUB_TOKEN}@github.com/${event.repository.full_name}.git`
-    ]);
+    await execFile('git', ['config', '--global', 'credential.helper', 'store']);
+    // Write the required information to ~/.git-credentials
+    const credentials = `https://x-access-token:${GITHUB_TOKEN}@github.com`;
+    const credentialsPath = path.join(homedir(), '.git-credentials');
+    await writeFile(credentialsPath, credentials);
 
     /**
      * The output from a successful call to `git diff --name-only`
@@ -176,9 +172,9 @@ function isConfig(config: any): config is Config {
           const pr = pulls.data[0];
           const baseBranch = pr.base.ref;
           // Ensure we have the commits from that ref
-          await execFile('git', ['fetch', remoteName, baseBranch]);
+          await execFile('git', ['fetch', 'origin', baseBranch]);
           const baseSha = await (await execFile(
-            'git', ['rev-parse', `refs/remotes/${remoteName}/${baseBranch}`]
+            'git', ['rev-parse', `refs/remotes/origin/${baseBranch}`]
           )).stdout.trim();
           diff = {
             baseSha,
@@ -221,9 +217,9 @@ function isConfig(config: any): config is Config {
 
     if (!diff) {
       try {
-        await execFile('git', ['fetch', remoteName, 'HEAD']);
+        await execFile('git', ['fetch', 'origin', 'HEAD']);
         const defaultBranchSha = await (await execFile(
-          'git', ['rev-parse', `refs/remotes/${remoteName}/HEAD`]
+          'git', ['rev-parse', `refs/remotes/origin/HEAD`]
         )).stdout.trim();
         const result = await execFile(
           'git', ['diff', '--name-only', `${defaultBranchSha}..${event.after}`]
@@ -238,9 +234,6 @@ function isConfig(config: any): config is Config {
         console.log('Failed to diff against default branch');
       }
     }
-
-    console.log(`Removing remote ${remoteName}`);
-    await execFile('git', ['remote', 'remove', remoteName]);
 
     if (!diff) {
       unableToGetChangedQueries = true;
