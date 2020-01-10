@@ -137,7 +137,10 @@ function isConfig(config: any): config is Config {
     /**
      * The output from a successful call to `git diff --name-only`
      */
-    let filesChangedRaw: string | null = null;
+    let diff: {
+      baseSha: string;
+      filesChangedRaw: string;
+    } | null = null;
 
     // Try (1) - find any PR associated with the branch of this push
 
@@ -158,7 +161,12 @@ function isConfig(config: any): config is Config {
           const baseBranch = pr.base.ref;
           // Ensure we have the commits from that ref
           await execFile('git', ['fetch', 'origin', baseBranch]);
-          filesChangedRaw = (await execFile('git', ['diff', '--name-only', `origin/${baseBranch}..${event.after}`])).stdout;
+          diff = {
+            baseSha: baseBranch,
+            filesChangedRaw: (await execFile(
+              'git', ['diff', '--name-only', `origin/${baseBranch}..${event.after}`]
+            )).stdout
+          }
         } else {
           console.log('No pull requests associated with the current push');
         }
@@ -174,40 +182,55 @@ function isConfig(config: any): config is Config {
 
     // Try (2) - see what files have changed in the last push
 
-    if (filesChangedRaw === null) {
-      const result = await execFile('git', ['diff', '--name-only', `${event.before}..${event.after}`])
-        .catch(err => {
-          console.warn(err);
-          console.log('Failed to get diff for push');
-        });
-      if (result)
-        filesChangedRaw = (await execFile('git', ['diff', '--name-only', `${event.before}..${event.after}`])).stdout;
+    if (!diff) {
+      try {
+        const result = await execFile(
+          'git', ['diff', '--name-only', `${event.before}..${event.after}`]
+        );
+        if (result)
+          diff = {
+            baseSha: event.before,
+            filesChangedRaw: result.stdout
+          };
+      } catch (err) {
+        console.warn(err);
+        console.log('Failed to get diff for push');
+      }
     }
 
     // Try (3) - see how the current HEAD differs from the default branch
 
-    if (filesChangedRaw === null) {
-      const result = await execFile('git', ['diff', '--name-only', `refs/remotes/origin/HEAD..${event.after}`])
-        .catch(err => {
-          console.warn(err);
-          console.log('Failed to diff against default branch');
-        });
-      if (result)
-        filesChangedRaw = (await execFile('git', ['diff', '--name-only', `${event.before}..${event.after}`])).stdout;
+    if (!diff) {
+      try {
+        const defaultBranchSha = await (await execFile(
+          'git', ['rev-parse', 'refs/remotes/origin/HEAD']
+        )).stdout.trim();
+        const result = await execFile(
+          'git', ['diff', '--name-only', `${defaultBranchSha}..${event.after}`]
+        );
+        if (result)
+          diff = {
+            baseSha: defaultBranchSha,
+            filesChangedRaw: result.stdout
+          }
+      } catch (err) {
+        console.warn(err);
+        console.log('Failed to diff against default branch');
+      }
     }
 
-    if (filesChangedRaw === null) {
+    if (!diff) {
       unableToGetChangedQueries = true;
     } else {
       // We have successfully obtained the diff for this push
-      filesChangedRaw.split('\n')
+      diff.filesChangedRaw.split('\n')
       .map(s => s.trim())
       .filter(s => s.endsWith('.ql'))
       .forEach(s => queriesChanged.add(s));
       console.log(`${pluralize(queriesChanged.size, 'query')} updated in this push`);
       comment += `${pluralize(queriesChanged.size, 'query')} changed `
-      comment += `[between \`${event.before.substr(0, 7)}\` and \`${event.after.substr(0, 7)}\`]`
-      comment += `(${event.repository.html_url}/compare/${event.before}...${event.after}) after push to \`${event.ref}\``;
+      comment += `[between \`${diff.baseSha.substr(0, 7)}\` and \`${event.after.substr(0, 7)}\`]`
+      comment += `(${event.repository.html_url}/compare/${diff.baseSha}...${event.after}) after push to \`${event.ref}\``;
       if (queriesChanged.size > 0) {
         comment += ':\n';
         for (const query of queriesChanged) {
