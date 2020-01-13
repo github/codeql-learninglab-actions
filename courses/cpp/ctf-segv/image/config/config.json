@@ -2,18 +2,18 @@
   "snapshotPath": "bminor_glibc_3332218",
   "locationPaths": "https://github.com/bminor/glibc/blob/333221862ecbebde60dd16e7ca17d26444e62f50{path}#L{line-start}-L{line-end}",
   "expectedResults": {
-    "0.0_function_definitions.ql": "0.0_function_definitions.csv",
-    "0.1_alloca_definition.ql": "0.1_alloca_definition.csv",
-    "1.0_alloca.ql": "1.0_alloca.csv",
-    "1.1_alloca_ignore_small.ql": "1.1_alloca_ignore_small.csv",
-    "2.0_use_alloca.ql": "2.0_use_alloca.csv",
-    "2.1_use_alloca_guard.ql": "2.1_use_alloca_guard.csv",
-    "2.2_use_alloca_guard.ql": "2.2_use_alloca_guard.csv",
-    "2.3_use_alloca_guard.ql": "2.3_use_alloca_guard.csv",
-    "2.4_use_alloca_guard.ql": "2.4_use_alloca_guard.csv",
-    "2.5_guarded_alloca.ql": "2.5_guarded_alloca.csv",
-    "3.0_alloca_ignore_small_or_guarded.ql": "3.0_alloca_ignore_small_or_guarded.csv",
-    "4.0_fopen.ql": "4.0_fopen.csv",
-    "4.1_fopen_to_alloca_taint.ql": "4.1_fopen_to_alloca_taint.csv"
+    "01_function_definitions.ql": "0.0_function_definitions.csv",
+    "02_alloca_definition.ql": "0.1_alloca_definition.csv",
+    "03_alloca.ql": "1.0_alloca.csv",
+    "04_alloca_ignore_small.ql": "1.1_alloca_ignore_small.csv",
+    "05_use_alloca.ql": "2.0_use_alloca.csv",
+    "06_use_alloca_guard.ql": "2.1_use_alloca_guard.csv",
+    "07_use_alloca_guard.ql": "2.2_use_alloca_guard.csv",
+    "08_use_alloca_guard.ql": "2.3_use_alloca_guard.csv",
+    "09_use_alloca_guard.ql": "2.4_use_alloca_guard.csv",
+    "10_guarded_alloca.ql": "2.5_guarded_alloca.csv",
+    "11_alloca_ignore_small_or_guarded.ql": "3.0_alloca_ignore_small_or_guarded.csv",
+    "12_fopen.ql": "4.0_fopen.csv",
+    "13_fopen_to_alloca_taint.ql": "4.1_fopen_to_alloca_taint.csv"
   }
 }
