@@ -114,7 +114,7 @@ function isConfig(config: any): config is Config {
   const queriesChanged = new Set<string>();
   let unableToGetChangedQueries = false;
 
-  if (RUN_ALL) {
+  if (!RUN_ALL) {
 
    /*
     * There are a few different ways in which we may determine which queries
