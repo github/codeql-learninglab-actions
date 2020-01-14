@@ -23,6 +23,12 @@ const writeFile = promisify(fs.writeFile);
 const RUN_ALL = process.env.RUN_ALL === 'true';
 
 /**
+ * Set to true to avoid using the GitHub API to post a comment
+ * (used when running the script in CI)
+ */
+const SKIP_COMMENT = process.env.SKIP_COMMENT === 'true';
+
+/**
  * The GITHUB_TOKEN secret
  */
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -97,13 +103,16 @@ function isConfig(config: any): config is Config {
 
   let comment = '';
 
-  const end = () =>
-    api.repos.createCommitComment({
-      body: comment,
-      owner: event.repository.owner.login,
-      repo: event.repository.name,
-      commit_sha: event.after
-    });
+  const end = () => {
+    if (!SKIP_COMMENT) {
+      api.repos.createCommitComment({
+        body: comment,
+        owner: event.repository.owner.login,
+        repo: event.repository.name,
+        commit_sha: event.after
+      });
+    }
+  }
 
   /**
    * File paths changed by the user (if we're not just running all queries)
