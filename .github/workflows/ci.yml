@@ -1,4 +1,4 @@
-name: Build and publish docker images to registry
+name: CI
 
 on: [push]
 
@@ -11,6 +11,6 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Build Course Docker Image
-      run: cd courses/cpp/ctf-segv/image && ./build.sh
+      run: cd courses/cpp/ctf-segv/image && ./test.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
