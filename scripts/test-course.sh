@@ -1,24 +1,27 @@
 #! /bin/bash
 
-# Test that the queries in ../answers produce the expected results
+# Build the codeql-learninglab-check & course image, and run all queries in
+# the course to ensure the expected result
+#
+# Should be run with the cwd being the course folder
 
 set -e
 set -x
 
-TMP=$PWD/tmp
+TMP=$(mktemp -d -t ci-XXXXXXXXXX)
 # Extract the expected parent tag from course Dockerfile
-PARENT_TAG=$(head -n 1 Dockerfile | awk -F ' ' '{print $2}')
+PARENT_TAG=$(head -n 1 image/Dockerfile | awk -F ' ' '{print $2}')
 TAG=ci-test
 
 # Build codeql-learninglab-check
-docker build -t $PARENT_TAG ../../../../codeql-learninglab-check
+docker build -t $PARENT_TAG ../../../codeql-learninglab-check
 
 # Build course image
-docker build -t $TAG .
+docker build -t $TAG image
 
 # Prepare temporary folder to mount into docker
 mkdir -p $TMP
-cp -R ../answers $TMP/answers
+cp -R answers $TMP/answers
 echo "{}" > $TMP/event.json
 
 # Run docker image
