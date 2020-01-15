@@ -10,7 +10,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
 
-    - name: Build Course Docker Image
+    - name: Build Images & Run Queries
       run: cd courses/cpp/ctf-segv/image && ./test.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
