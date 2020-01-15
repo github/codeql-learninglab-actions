@@ -22,7 +22,7 @@ cat <<EOT > tmp/event.json
 }
 EOT
 
-docker run -it \
+docker run -i \
   -e GITHUB_EVENT_NAME=push \
   -e GITHUB_EVENT_PATH=/opt/tmp/event.json \
   -e GITHUB_TOKEN=noop \
