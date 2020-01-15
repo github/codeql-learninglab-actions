@@ -5,7 +5,7 @@
 set -e
 set -x
 
-TMP=$PWD/tmp
+TMP=$(mktemp -d -t ci-XXXXXXXXXX)
 # Extract the expected parent tag from course Dockerfile
 PARENT_TAG=$(head -n 1 Dockerfile | awk -F ' ' '{print $2}')
 TAG=ci-test
