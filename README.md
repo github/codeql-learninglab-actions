@@ -55,13 +55,188 @@ the components in this repository:
   has completed the current task correctly,
   and is ready to advance to the next one.
 
-### Creating a GitHub Action
+### Creating the GitHub Action
 
-TODO
+*(for an example of a working action,
+see [`courses/cpp/ctf-segv`](courses/cpp/ctf-segv)).*
+
+Course actions consist of an `action.yml` file,
+and docker image built from the base image
+[`codeql-learninglab-check`](codeql-learninglab-check).
+
+The base image expects course images built on-top of it
+to add the file `/home/codeql/config/config.json`,
+which details the configuration for the course.
+
+The file should look something like this:
+
+<!-- TODO : change snapshotPath to databasePath -->
+
+```json
+{
+  "snapshotPath": "<path-to-database-directory>",
+  "locationPaths": "https://github.com/<owner>/<repo>/blob/<sha>{path}#L{line-start}-L{line-end}",
+  "expectedResults": {
+    "step-01.ql": "step-01.csv",
+    "step-02.ql": "step-02.csv",
+    "step-03.ql": "step-03.csv",
+  }
+}
+```
+
+In addition to the `config.json` file above,
+a course image needs to also add the snapshot directory
+that queries should be run against,
+and csv files for the expected results.
+
+* `snapshotPath` should be a directory in the docker image,
+  relative to the `config.json` file,
+  that contains the extracted CodeQL database that queries will be run against.
+  If you are using the template below,
+  it will usually be the name of the only top-level directory
+  from inside the database zip file.
+* `locationPaths` is an optional template string that can be used to enable
+  source links in comments, when participants have written queries that output
+  unexpected rows, or are missing results.
+  `<owner>`, `<repo>` and `<sha>` should be replace as appropriate,
+  the placeholders `{path}`, `{line-start}` and `{line-end}` are used by the
+  checker, and should be left as-is.
+* `expectedResults` is an object that maps expected query filenames to a csv
+  file detailing what the expected results for this query should be.
+  Only the first expression for each row in the query results is checked.
+
+To simplify course creation,
+we recommend structuring your course folder like so:
+
+```
+├── answers               <─── Model Answers
+│   ├── step-01.ql        <─┬─ Answers with expected paths
+│   ├── step-02.ql        <─┤  (relative to answers/)
+│   └── ...               <─┘  as specified in config.json
+├── image
+│   ├── config
+│   │   ├── config.json   <─── Main course configuration
+│   │   ├── step-01.csv
+│   │   ├── step-02.csv
+│   │   └── ...
+│   └── Dockerfile
+└── action.yml
+```
+
+*(For your convinience,
+we've created a template course that uses this file-structure
+in the folder [`courses/template`](courses/template).
+You can simply copy the folder,
+and follow the instructions in the template README for what things to replace).*
+
+`action.yml` should look something like this:
+
+```yml
+name: 'Check queries'
+description: 'Check that the queries that have been pushed (as part of the lesson) produce the correct results'
+author: 'GitHub <opensource+codeql-learninglab-actions@github.com>'
+runs:
+  using: 'docker'
+  image: 'docker.pkg.github.com/<owner>/<repo>/<package>'
+branding:
+  icon: 'check-circle'
+  color: 'purple'
+```
+
+and `Dockerfile` should look something like:
+
+```Dockerfile
+FROM docker.pkg.github.com/github/codeql-learninglab-actions/codeql-learninglab-check:<version>
+
+## Add course config
+COPY --chown=codeql:codeql config /home/codeql/config
+WORKDIR /home/codeql/config
+# Download, unzip and then delete the zip file in one step to reduce image size
+RUN wget --quiet <url-for-snapshot-zip> -O snapshot.zip && unzip -qq snapshot.zip && rm -rf snapshot.zip
+```
+
+Note that we download, unzip and then delete the zip file of the snapshot
+in a single step here.
+This helps us reduce the size of the image,
+as separate steps would result in intermediate image layers that are built
+on-top of one another.
+
+#### Testing the action
+
+You can test the action either locally or on GitHub actions.
+
+**Locally:**
+
+To test a course locally,
+from the course directory,
+run either of these scripts:
+
+* [`scripts/test-course-actual.sh`](scripts/test-course-only.sh):
+  which will download and use the specific version of `codeql-learninglab-check`
+  that is specified in `Dockerfile`
+* [`scripts/test-course.sh`](scripts/test-course.sh):
+  Which will also build the `codeql-learninglab-check` image locally,
+  and tag it with the expected base image of the course,
+  allowing you to test how changes to the `codeql-learninglab-check`
+  affect this specific course,
+  without publishing any new images.
+
+**In GitHub Actions:**
+
+If adding a course to this repository,
+extend the workflow file [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
+to include your new course.
+Any subsequent pushes to any branch should trigger an Action to run
+that will succeed only when all the expected queries produce the right results.
+
+If you are creating a course in another repository,
+you can copy the [`scripts/test-course-only.sh`](scripts/test-course-only.sh)
+and [`scripts/test-course.sh`](scripts/test-course.sh) files
+into that repository,
+and add a similar workflow file to the one mentioned above.
+
+#### Adding new queries & calculating the contents for the CSV files
+
+When testing the action ([as detailed above](#testing-the-action)),
+when a query that is run produces unexpected results,
+the actual results that it produces are printed out in the console.
+You can then store this output as the relevant CSV file.
+
+So the workflow for adding a new query and CSV file looks like:
+
+* add the query (`.ql` file) to `answers/`
+* add the query to `config.json`
+  (remember that the path should be relative to `answers/`)
+* Test the action (whichever method you prefer)
+* Copy the CSV output to the appropriate file in `image/config/`
+* Re-test the action to ensure it marks the query
+  as producing the correct results
+
+#### Publishing your action
+
+The main thing you need to do here is publish your Docker image somewhere,
+and ensure that `action.yml` referrs to a tag that is downloadable.
+
+We recommend setting up a GitHub Actions Workflow
+to automatically publish your docker image
+with the version `latest` to `docker.pkg.github.com`
+whenever you get a new push to `master`.
+This is what we do in
+[`.github/workflows/publish.yml`](.github/workflows/publish.yml).
+
+Any courses that are added to this repository
+need to be published in this manner.
 
 ### Contributing your GitHub Action to this repository
 
-TODO
+If you want to add a course to this repository,
+ensure that:
+
+* You're creating the course in the `courses/` folder,
+  under the appropriate language sub-folder for the project.
+* You update both [`.github/workflows/ci.yml`](.github/workflows/ci.yml) and
+  [`.github/workflows/publish.yml`](.github/workflows/publish.yml) to include
+  testing and image publishing for your course.
 
 ## Example Courses
 
@@ -69,6 +244,17 @@ TODO
 
 Feel free to add your own courses to this list!
 See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Contributing
+
+We welcome contributions,
+both for new courses,
+and improvements to existing courses ot the
+[`codeql-learninglab-check`](codeql-learninglab-check) docker image.
+
+### Releasing new versions or updating dependencies
+
+See: [Updating and Releasing](CONTRIBUTING.md#updating-and-releasing)
 
 ## License
 
