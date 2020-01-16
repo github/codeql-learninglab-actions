@@ -155,7 +155,7 @@ FROM docker.pkg.github.com/github/codeql-learninglab-actions/codeql-learninglab-
 COPY --chown=codeql:codeql config /home/codeql/config
 WORKDIR /home/codeql/config
 # Download, unzip and then delete the zip file in one step to reduce image size
-RUN wget --quiet <url-for-snapshot-zip> -O snapshot.zip && unzip -qq snapshot.zip && rm -rf snapshot.zip
+RUN wget --quiet <url-for-snapshot-zip> -O database.zip && unzip -qq database.zip && rm -rf database.zip
 ```
 
 Note that we download, unzip and then delete the zip file of the snapshot
