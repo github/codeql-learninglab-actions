@@ -15,5 +15,5 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # Build codeql-learninglab-check
 docker pull $PARENT_TAG
 
-# Run ./test-course-only.sh
-$DIR/test-course-only.sh
+# Run ./test-course-shared.sh
+$DIR/test-course-shared.sh
