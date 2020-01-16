@@ -9,6 +9,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
 
+    - name: Login to docker
+      run: docker login docker.pkg.github.com -u github-actions -p ${{ secrets.GITHUB_TOKEN }}
+
     - name: Build Images & Run Queries
       run: cd courses/cpp/ctf-segv && ../../../scripts/test-course-actual.sh
   test-courses-cpp-ctf-segv-latest:
@@ -16,9 +19,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v1
-
-    - name: Login to docker
-      run: docker login docker.pkg.github.com -u github-actions -p ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build Images & Run Queries
       run: cd courses/cpp/ctf-segv && ../../../scripts/test-course-latest.sh
