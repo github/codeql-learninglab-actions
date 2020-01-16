@@ -45,7 +45,7 @@ const CONFIG_JSON = path.join(CONFIG_PATH, 'config.json');
 const OUTPUT_PATH = path.join(CODEQL_HOME, 'output');
 
 type Config = {
-  snapshotPath: string;
+  databasePath: string;
   /**
    * If set, the locations of extra or missing results can be linked to from
    * comments. {path} and {line-start} placeholders need to be present
@@ -61,7 +61,7 @@ type Config = {
 function isConfig(config: any): config is Config {
   if (!config)
     throw new Error('Configuration not specified');
-  if (typeof config.snapshotPath !== 'string')
+  if (typeof config.databasePath !== 'string')
     throw new Error('Configuration must specify a valid snapshotPath');
   if (typeof config.expectedResults !== 'object')
     throw new Error('Configuration property expectedResults invalid');
@@ -299,7 +299,7 @@ function isConfig(config: any): config is Config {
     console.log(`- ${query}`);
 
   // Upgrade the database if neccesary
-  const databasePath = path.join(CONFIG_PATH, config.snapshotPath);
+  const databasePath = path.join(CONFIG_PATH, config.databasePath);
   console.log('Upgrading CodeQL Database');
   await execFile('codeql', ['database', 'upgrade', databasePath]);
 
