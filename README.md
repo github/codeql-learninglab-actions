@@ -79,7 +79,7 @@ The file should look something like this:
   "expectedResults": {
     "step-01.ql": "step-01.csv",
     "step-02.ql": "step-02.csv",
-    "step-03.ql": "step-03.csv",
+    "step-03.ql": false,
   }
 }
 ```
@@ -104,6 +104,12 @@ and csv files for the expected results.
 * `expectedResults` is an object that maps expected query filenames to a csv
   file detailing what the expected results for this query should be.
   Only the first expression for each row in the query results is checked.
+  If instead of a CSV filename, `false` is used,
+  then the checker will assume that the CSV file has simply
+  never been generated,
+  and will print out the resulting output from the query for you to copy into a
+  new file.
+
 
 To simplify course creation,
 we recommend structuring your course folder like so:
@@ -200,18 +206,19 @@ and add a similar workflow file to the one mentioned above.
 
 When testing the action ([as detailed above](#testing-the-action)),
 when a query that is run produces unexpected results,
+or it is specified as `false` in `config.yml` instead of listing a CSV filename,
 the actual results that it produces are printed out in the console.
 You can then store this output as the relevant CSV file.
 
 So the workflow for adding a new query and CSV file looks like:
 
-* add the query (`.ql` file) to `answers/`
-* add the query to `config.json`
-  (remember that the path should be relative to `answers/`)
-* Test the action (whichever method you prefer)
-* Copy the CSV output to the appropriate file in `image/config/`
+* add the query (`.ql` file) to `answers/`.
+* add the query to the `expectedResults` property in `config.json`,
+  with a starting value of `false`.
+* Test the action (whichever method you prefer).
+* Copy the CSV output to the appropriate file in `image/config/`.
 * Re-test the action to ensure it marks the query
-  as producing the correct results
+  as producing the correct results.
 
 #### Publishing your action
 
