@@ -266,16 +266,19 @@ See: [Updating and Releasing](CONTRIBUTING.md#updating-and-releasing)
 
 ## License
 
-The code in this repository is licensed under MIT (see [LICENSE.md](LICENSE.md)),
-however as it makes use of the CodeQL CLI,
-usage of this repository is subject to the
+The code in this repository is licensed under MIT (see [LICENSE.md](LICENSE.md)).
+However as it makes use of the CodeQL CLI,
+you must also abide by the
 [GitHub CodeQL Terms and Conditions](https://securitylab.github.com/tools/codeql/license),
-(whenever your usage involves the CodeQL CLI).
+whenever your usage involves the CodeQL CLI.
 
 In particular,
 you are not permitted to use these docker images or actions
-to interact with the CodeQL CLI in CI/CD,
+to create CodeQL databases using the CLI in CI/CD,
 as per the [terms & conditions](https://securitylab.github.com/tools/codeql/license):
 
-> **the Software cannot be used** ... **For automated analysis, continuous integration or continuous delivery, whether as part of normal software engineering processes or otherwise.**
+> **the Software cannot be used** [...]
+> **To generate CodeQL databases for or during automated analysis,
+> continuous integration or continuous delivery,
+> whether as part of normal software engineering processes or otherwise.**
 
