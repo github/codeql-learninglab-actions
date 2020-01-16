@@ -24,8 +24,22 @@ including links to the lines of source code on GitHub when possible:
 
 ![](docs/comment_screenshot.png)
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Creating your own course](#creating-your-own-course)
+  - [Creating the GitHub Action](#creating-the-github-action)
+    - [Testing the action](#testing-the-action)
+    - [Adding new queries & calculating the contents for the CSV files](#adding-new-queries--calculating-the-contents-for-the-csv-files)
+    - [Publishing your action](#publishing-your-action)
+  - [Contributing your GitHub Action to this repository](#contributing-your-github-action-to-this-repository)
+- [Example Courses](#example-courses)
+- [Contributing](#contributing)
+  - [Releasing new versions or updating dependencies](#releasing-new-versions-or-updating-dependencies)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Creating your own course
 
