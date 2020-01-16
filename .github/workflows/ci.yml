@@ -3,14 +3,22 @@ name: CI
 on: [push]
 
 jobs:
-  # TODO: make this use any changes in codeql-learninglab-check
-  test-courses-cpp-ctf-segv:
+  test-courses-cpp-ctf-segv-actual:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v1
 
     - name: Build Images & Run Queries
-      run: cd courses/cpp/ctf-segv && ../../../scripts/test-course.sh
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: cd courses/cpp/ctf-segv && ../../../scripts/test-course-actual.sh
+  test-courses-cpp-ctf-segv-latest:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Login to docker
+      run: docker login docker.pkg.github.com -u github-actions -p ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build Images & Run Queries
+      run: cd courses/cpp/ctf-segv && ../../../scripts/test-course-latest.sh
