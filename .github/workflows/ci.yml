@@ -22,3 +22,22 @@ jobs:
 
     - name: Build Images & Run Queries
       run: cd courses/cpp/ctf-segv && ../../../scripts/test-course-latest.sh
+  test-courses-template-actual:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Login to docker
+      run: docker login docker.pkg.github.com -u github-actions -p ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build Images & Run Queries
+      run: cd courses/template && ../../scripts/test-course-actual.sh
+  test-courses-template-latest:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Build Images & Run Queries
+      run: cd courses/template && ../../scripts/test-course-latest.sh

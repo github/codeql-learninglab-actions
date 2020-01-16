@@ -1,5 +1,7 @@
 #! /bin/bash
 
+# TODO: move to /scripts/
+
 set -e
 set -x
 

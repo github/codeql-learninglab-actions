@@ -21,6 +21,8 @@ including links to the lines of source code on GitHub when possible:
 
 ![](docs/comment_screenshot.png)
 
+<!-- TODO: add README table of contents -->
+
 ## Creating your own course
 
 There are two main components to any Learning Lab course for CodeQL that uses
@@ -110,6 +112,7 @@ we recommend structuring your course folder like so:
 
 ```
 ├── answers               <─── Model Answers
+│   ├── qlpack.yml
 │   ├── step-01.ql        <─┬─ Answers with expected paths
 │   ├── step-02.ql        <─┤  (relative to answers/)
 │   └── ...               <─┘  as specified in config.json
