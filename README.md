@@ -147,7 +147,7 @@ description: 'Check that the queries that have been pushed (as part of the lesso
 author: 'GitHub <opensource+codeql-learninglab-actions@github.com>'
 runs:
   using: 'docker'
-  image: 'docker.pkg.github.com/<owner>/<repo>/<package>'
+  image: 'docker://docker.pkg.github.com/<owner>/<repo>/<package>'
 branding:
   icon: 'check-circle'
   color: 'purple'

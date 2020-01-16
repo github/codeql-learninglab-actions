@@ -3,7 +3,7 @@ description: 'Check that the queries that have been pushed (as part of the lesso
 author: 'GitHub <opensource+codeql-learninglab-actions@github.com>'
 runs:
   using: 'docker'
-  image: 'docker.pkg.github.com/github/codeql-learninglab-actions/courses-cpp-ctf-segv'
+  image: 'docker://docker.pkg.github.com/github/codeql-learninglab-actions/courses-cpp-ctf-segv'
 branding:
   icon: 'check-circle'
   color: 'purple'

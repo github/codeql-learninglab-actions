@@ -3,7 +3,7 @@ description: 'Check that the queries that have been pushed produce the correct r
 author: 'GitHub <opensource+codeql-learninglab-actions@github.com>'
 runs:
   using: 'docker'
-  image: 'docker.pkg.github.com/<owner>/<repo>/<pkg>'
+  image: 'docker://docker.pkg.github.com/<owner>/<repo>/<pkg>'
 branding:
   icon: 'check-circle'
   color: 'purple'
