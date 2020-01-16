@@ -3,6 +3,14 @@ name: CI
 on: [push]
 
 jobs:
+  generateTOC:
+    runs-on: ubuntu-latest
+    name: Generate Table of Contents
+    steps:
+      - name: TOC Generator
+        uses: technote-space/toc-generator@v2.0.6
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   test-courses-cpp-ctf-segv-actual:
     runs-on: ubuntu-latest
     steps:
