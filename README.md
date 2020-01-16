@@ -72,11 +72,9 @@ which details the configuration for the course.
 
 The file should look something like this:
 
-<!-- TODO : change snapshotPath to databasePath -->
-
 ```json
 {
-  "snapshotPath": "<path-to-database-directory>",
+  "databasePath": "<path-to-database-directory>",
   "locationPaths": "https://github.com/<owner>/<repo>/blob/<sha>{path}#L{line-start}-L{line-end}",
   "expectedResults": {
     "step-01.ql": "step-01.csv",
@@ -91,7 +89,7 @@ a course image needs to also add the snapshot directory
 that queries should be run against,
 and csv files for the expected results.
 
-* `snapshotPath` should be a directory in the docker image,
+* `databasePath` should be a directory in the docker image,
   relative to the `config.json` file,
   that contains the extracted CodeQL database that queries will be run against.
   If you are using the template below,
