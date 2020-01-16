@@ -75,7 +75,7 @@ the components in this repository:
   has completed the current task correctly,
   and is ready to advance to the next one.
 
-### Creating the GitHub Action
+### Creating the Query Checking Action
 
 *(for an example of a working action,
 see [`courses/cpp/ctf-segv`](courses/cpp/ctf-segv)).*
