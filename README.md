@@ -46,7 +46,7 @@ including links to the lines of source code on GitHub when possible:
 There are two main components to any Learning Lab course for CodeQL that uses
 the components in this repository:
 
-* **Query Checking Action:**
+* [**Query Checking Action:**](#creating-the-query-checking-action)
 
   Each course has its own GitHub Action that is designed to be used in workflows
   that run when a course participant pushes new commits to their repo.
@@ -66,7 +66,7 @@ the components in this repository:
   and made available using
   [GitHub Packages](https://github.com/features/packages).
 
-* **Learning Lab Course:**
+* [**Learning Lab Course:**](#creating-the-learning-lab-course)
 
   This is the course itself.
   It creates the initial repository the participant will use for their course,
@@ -150,7 +150,7 @@ we recommend structuring your course folder like so:
 
 *(For your convinience,
 we've created a template course that uses this file-structure
-in the folder [`courses/template`](courses/template).
+in the folder [`templates/action`](templates/action).
 You can simply copy the folder,
 and follow the instructions in the template README for what things to replace).*
 
@@ -263,6 +263,35 @@ ensure that:
 * You update both [`.github/workflows/ci.yml`](.github/workflows/ci.yml) and
   [`.github/workflows/publish.yml`](.github/workflows/publish.yml) to include
   testing and image publishing for your course.
+
+### Creating the Learning Lab Course
+
+If you have not created a Learning Lab course before,
+it is recommended to take the
+[course on creating a course](https://lab.github.com/githubtraining/write-a-learning-lab-course)!
+
+There are core repositories that need to be created as part of any learning-lab
+course:
+
+* **The course repository:**
+  All the course configuration, instructions etc...
+* **The template repository:**
+  The initial contents that populate the repository
+  created on behalf of the course participant.
+  (All courses are taken with respect to it's own repository)
+
+We've created two template directories
+that you can use as a starting point for your own CodeQL Learning Lab Course:
+
+* [`templates/learninglab/course`](templates/learninglab/course)
+* [`templates/learninglab/course-template`](templates/learninglab/course-template)
+
+Simply copy the contents of these templates into their own repositories,
+and follow the [template instructions](templates/learninglab) to get started.
+
+*(Remember that you need to create 2 separate repositories
+for your Learning Lab course,
+they can't be directories in an existing repo).*
 
 ## Example Courses
 
