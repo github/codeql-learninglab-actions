@@ -24,7 +24,8 @@ including links to the lines of source code on GitHub when possible:
 
 ![](docs/comment_screenshot.png)
 
-<!-- TODO: add README table of contents -->
+<!-- START doctoc -->
+<!-- END doctoc -->
 
 ## Creating your own course
 
