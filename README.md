@@ -1,5 +1,8 @@
 # Actions for Learning Lab CodeQL Courses
 
+[![](https://github.com/github/codeql-learninglab-actions/workflows/CI/badge.svg)](https://github.com/github/codeql-learninglab-actions/actions?query=workflow%3ACI)
+[![](https://github.com/github/codeql-learninglab-actions/workflows/Build%20and%20publish%20docker%20images%20to%20registry/badge.svg)](https://github.com/github/codeql-learninglab-actions/actions?query=workflow%3A%22Build+and+publish+docker+images+to+registry%22)
+
 This repository provides Docker images and GitHub Actions
 for use in CodeQL courses
 on [Learning Lab](https://lab.github.com/).
