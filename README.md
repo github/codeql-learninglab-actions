@@ -29,11 +29,12 @@ including links to the lines of source code on GitHub when possible:
 **Table of Contents**
 
 - [Creating your own course](#creating-your-own-course)
-  - [Creating the GitHub Action](#creating-the-github-action)
+  - [Creating the Query Checking Action](#creating-the-query-checking-action)
     - [Testing the action](#testing-the-action)
     - [Adding new queries & calculating the contents for the CSV files](#adding-new-queries--calculating-the-contents-for-the-csv-files)
     - [Publishing your action](#publishing-your-action)
   - [Contributing your GitHub Action to this repository](#contributing-your-github-action-to-this-repository)
+  - [Creating the Learning Lab Course](#creating-the-learning-lab-course)
 - [Example Courses](#example-courses)
 - [Contributing](#contributing)
   - [Releasing new versions or updating dependencies](#releasing-new-versions-or-updating-dependencies)
