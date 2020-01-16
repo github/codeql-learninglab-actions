@@ -1,5 +1,5 @@
 {
-  "snapshotPath": "bminor_glibc_3332218",
+  "databasePath": "bminor_glibc_3332218",
   "locationPaths": "https://github.com/bminor/glibc/blob/333221862ecbebde60dd16e7ca17d26444e62f50{path}#L{line-start}-L{line-end}",
   "expectedResults": {
     "01_function_definitions.ql": "0.0_function_definitions.csv",
