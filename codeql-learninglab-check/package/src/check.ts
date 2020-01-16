@@ -38,6 +38,9 @@ export interface Result {
 }
 
 export type ResultsCheck = {
+  // CSV file has not been defined for this query yet
+  status: 'undefined';
+} | {
   status: 'correct';
   count: number;
 } | {

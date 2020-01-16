@@ -3,6 +3,6 @@
   "locationPaths": "https://github.com/<org>/<repo>/blob/<sha>{path}#L{line-start}-L{line-end}",
   "expectedResults": {
     "step-01.ql": "step-01.csv",
-    "step-02.ql": "step-02.csv"
+    "step-02.ql": "step-01.csv"
   }
 }

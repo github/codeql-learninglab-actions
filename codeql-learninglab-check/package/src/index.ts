@@ -55,7 +55,7 @@ type Config = {
   /**
    * Mapping from query filename to expected results csv file
    */
-  expectedResults: {[id: string]: string};
+  expectedResults: {[id: string]: string | false};
 };
 
 function isConfig(config: any): config is Config {
@@ -74,7 +74,7 @@ function isConfig(config: any): config is Config {
       throw new Error('Configuration property locationPaths must have the placeholder "{line-start}"');
   }
   for (const k of Object.keys(config.expectedResults)) {
-    if (typeof config.expectedResults[k] !== 'string') {
+    if (typeof config.expectedResults[k] !== 'string' && config.expectedResults[k] !== false) {
       throw new Error(`Confiuration property "expectedResults" -> "${k}" must be a string`);
     }
   }
@@ -319,8 +319,13 @@ function isConfig(config: any): config is Config {
     console.log(result.stdout);
     const csvOutput = csvPath(query);
     await execFile('codeql', ['bqrs', 'decode', '--entities=url,string', bqrsOutput, '--format=csv', `--output=${csvOutput}`]);
-    const expectedCSV = path.join(CONFIG_PATH, config.expectedResults[query]);
-    results.set(query, await checkResults(expectedCSV, csvOutput));
+    const relativeExpectedCSV = config.expectedResults[query];
+    if (relativeExpectedCSV) {
+      const expectedCSV = path.join(CONFIG_PATH, relativeExpectedCSV);
+      results.set(query, await checkResults(expectedCSV, csvOutput));
+    } else {
+      results.set(query, {status: 'undefined'});
+    }
   }
 
   for(const entry of results.entries()) {
@@ -330,18 +335,22 @@ function isConfig(config: any): config is Config {
     if (r.status === 'correct') {
       comment += ` (${pluralize(r.count, 'result')})`;
     } else {
-      if (r.results) {
-        comment += ` (${pluralize(r.results.actualCount, 'result')}):\n\n`;
-        comment += r.explanation;
-        comment += `\nExpected query to produce ${r.results.expectedCount} results`;
-        comment += formatResults(config.locationPaths, r.results.missingResults, 'Missing results');
-        comment += formatResults(config.locationPaths, r.results.unexpectedResults, 'Unexpected results');
-        comment += formatResults(config.locationPaths, r.results.extraResults, 'Results selected too many times');
+      if (r.status === 'incorrect') {
+        if (r.results) {
+          comment += ` (${pluralize(r.results.actualCount, 'result')}):\n\n`;
+          comment += r.explanation;
+          comment += `\nExpected query to produce ${r.results.expectedCount} results`;
+          comment += formatResults(config.locationPaths, r.results.missingResults, 'Missing results');
+          comment += formatResults(config.locationPaths, r.results.unexpectedResults, 'Unexpected results');
+          comment += formatResults(config.locationPaths, r.results.extraResults, 'Results selected too many times');
+        } else {
+          comment += r.explanation;
+        }
+        core.setFailed(`Incorrect results for ${query}`);
       } else {
-        comment += r.explanation;
+        console.log(`No CSV defined for ${query}:`);
       }
       // Print CSV in console
-      core.setFailed(`Incorrect results for ${query}`);
       core.startGroup('Actual Results CSV:');
       console.log((await (readFile(csvPath(query)))).toString());
       core.endGroup();
