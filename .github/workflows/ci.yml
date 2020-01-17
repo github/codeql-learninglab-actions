@@ -48,4 +48,4 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Build Images & Run Queries
-      run: cd ctemplates/action && ../../scripts/test-course-latest.sh
+      run: cd templates/action && ../../scripts/test-course-latest.sh
