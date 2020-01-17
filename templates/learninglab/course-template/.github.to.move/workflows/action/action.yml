@@ -1,0 +1,9 @@
+name: 'Check queries'
+description: 'Check that the queries that have been pushed'
+author: 'GitHub <opensource+codeql-learninglab-actions@github.com>'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+branding:
+  icon: 'check-circle'
+  color: 'purple'
