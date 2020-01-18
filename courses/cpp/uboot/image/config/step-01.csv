@@ -1,4 +1,4 @@
 "f","URL for f","col1"
-"getchar","file:///opt/src/libio/getchar.c:33:1:33:7","a getchar function"
-"getchar","file:///opt/src/libio/bits/stdio.h:47:1:47:7","a getchar function"
-"getchar","file:///opt/src/libio/bits/stdio.h:47:1:47:7","a getchar function"
+"strlen","file:///opt/src/include/linux/string.h:74:24:74:29","a function named strlen"
+"strlen","file:///usr/x86_64-linux-gnu/include/string.h:384:15:384:20","a function named strlen"
+"strlen","file:///opt/src/lib/string.c:264:8:264:13","a function named strlen"
