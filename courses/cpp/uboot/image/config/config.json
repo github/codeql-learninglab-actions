@@ -2,6 +2,7 @@
   "databasePath": "u-boot_u-boot_d0d07ba",
   "locationPaths": "https://github.com/u-boot/u-boot/blob/d0d07ba86afc8074d79e436b1ba4478fa0f0c1b5{path}#L{line-start}-L{line-end}",
   "expectedResults": {
-    "step-01.ql": "step-01.csv"
+    "step-11.ql": "step-11.csv",
+    "step-12.ql": "step-12.csv"
   }
 }

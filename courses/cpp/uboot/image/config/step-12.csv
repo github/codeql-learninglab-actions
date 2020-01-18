@@ -1,0 +1,4 @@
+"f","URL for f","col1"
+"memcpy","file:///opt/src/lib/string.c:532:8:532:13","a function named memcpy"
+"memcpy","file:///usr/x86_64-linux-gnu/include/bits/string_fortified.h:31:8:31:13","a function named memcpy"
+"memcpy","file:///usr/x86_64-linux-gnu/include/bits/string_fortified.h:31:8:31:13","a function named memcpy"
