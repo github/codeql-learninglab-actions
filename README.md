@@ -197,10 +197,10 @@ To test a course locally,
 from the course directory,
 run either of these scripts:
 
-* [`scripts/test-course-actual.sh`](scripts/test-course-only.sh):
+* [`scripts/test-course-actual.sh`](scripts/test-course-actual.sh):
   which will download and use the specific version of `codeql-learninglab-check`
   that is specified in `Dockerfile`
-* [`scripts/test-course.sh`](scripts/test-course.sh):
+* [`scripts/test-course-latest.sh`](scripts/test-course-latest.sh):
   Which will also build the `codeql-learninglab-check` image locally,
   and tag it with the expected base image of the course,
   allowing you to test how changes to the `codeql-learninglab-check`
@@ -216,8 +216,8 @@ Any subsequent pushes to any branch should trigger an Action to run
 that will succeed only when all the expected queries produce the right results.
 
 If you are creating a course in another repository,
-you can copy the [`scripts/test-course-only.sh`](scripts/test-course-only.sh)
-and [`scripts/test-course.sh`](scripts/test-course.sh) files
+you can copy the [`scripts/test-course-actual.sh`](scripts/test-course-actual.sh)
+and [`scripts/test-course-latest.sh`](scripts/test-course-latest.sh) files
 into that repository,
 and add a similar workflow file to the one mentioned above.
 
