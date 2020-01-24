@@ -2,10 +2,10 @@
   "databasePath": "u-boot_u-boot_d0d07ba",
   "locationPaths": "https://github.com/u-boot/u-boot/blob/d0d07ba86afc8074d79e436b1ba4478fa0f0c1b5{path}#L{line-start}-L{line-end}",
   "expectedResults": {
-    "step-11.ql": "step-11.csv",
-    "step-12.ql": "step-12.csv",
-    "step-13.ql": "step-13.csv",
-    "step-21.ql": "step-21.csv",
-    "step-22.ql": "step-22.csv"
+    "11_function_definitions.ql": "step-11.csv",
+    "12_memcpy_definitions.ql": "step-12.csv",
+    "13_macro_definitions.ql": "step-13.csv",
+    "21_memcpy_calls.ql": "step-21.csv",
+    "22_macro_invocations.ql": "step-22.csv"
   }
 }
