@@ -28,17 +28,18 @@ including links to the lines of source code on GitHub when possible:
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [Creating your own course](#creating-your-own-course)
-  - [Creating the Query Checking Action](#creating-the-query-checking-action)
-    - [Testing the action](#testing-the-action)
-    - [Adding new queries & calculating the contents for the CSV files](#adding-new-queries--calculating-the-contents-for-the-csv-files)
-    - [Publishing your action](#publishing-your-action)
-  - [Contributing your GitHub Action to this repository](#contributing-your-github-action-to-this-repository)
-  - [Creating the Learning Lab Course](#creating-the-learning-lab-course)
-- [Example Courses](#example-courses)
-- [Contributing](#contributing)
-  - [Releasing new versions or updating dependencies](#releasing-new-versions-or-updating-dependencies)
-- [License](#license)
+- [Actions for Learning Lab CodeQL Courses](#actions-for-learning-lab-codeql-courses)
+  - [Creating your own course](#creating-your-own-course)
+    - [Creating the Query Checking Action](#creating-the-query-checking-action)
+      - [Testing the action](#testing-the-action)
+      - [Adding new queries & calculating the contents for the CSV files](#adding-new-queries--calculating-the-contents-for-the-csv-files)
+      - [Publishing your action](#publishing-your-action)
+    - [Contributing your GitHub Action to this repository](#contributing-your-github-action-to-this-repository)
+    - [Creating the Learning Lab Course](#creating-the-learning-lab-course)
+  - [Example Courses](#example-courses)
+  - [Contributing](#contributing)
+    - [Releasing new versions or updating dependencies](#releasing-new-versions-or-updating-dependencies)
+  - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -206,6 +207,11 @@ run either of these scripts:
   allowing you to test how changes to the `codeql-learninglab-check`
   affect this specific course,
   without publishing any new images.
+
+Both scripts take as argument an **optional** regexp string.
+If this string is passed, only the queries 
+with names matching the regexp will be run.
+Otherwise all queries are run.
 
 **In GitHub Actions:**
 
