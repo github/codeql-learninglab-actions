@@ -28,7 +28,6 @@ including links to the lines of source code on GitHub when possible:
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [Actions for Learning Lab CodeQL Courses](#actions-for-learning-lab-codeql-courses)
   - [Creating your own course](#creating-your-own-course)
     - [Creating the Query Checking Action](#creating-the-query-checking-action)
       - [Testing the action](#testing-the-action)
@@ -335,4 +334,3 @@ as per the [terms & conditions](https://securitylab.github.com/tools/codeql/lice
 > **To generate CodeQL databases for or during automated analysis,
 > continuous integration or continuous delivery,
 > whether as part of normal software engineering processes or otherwise.**
-
