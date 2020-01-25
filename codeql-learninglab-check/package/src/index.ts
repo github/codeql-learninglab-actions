@@ -278,7 +278,6 @@ function isConfig(config: any): config is Config {
     const exists = await access(query, fs.constants.R_OK).then(() => true, () => false);
     // Run the query if either it's changed, or runAll is true
     if (exists && (RUN_ALL || unableToGetChangedQueries || queriesChanged.has(query)) || (queryPattern && QUERY_PATTERN.test(query))) {
-      console.log('query: ' + query + ' / RUN_ALL: ' + RUN_ALL + ' / unableToGetChangedQueries: ' + unableToGetChangedQueries + ' / regex test: ' + QUERY_PATTERN.test(query))
       queriesToRun.push(query);
     }
   }
