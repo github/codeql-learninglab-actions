@@ -22,7 +22,7 @@ const writeFile = promisify(fs.writeFile);
  * If specific queries should be run, RUN_ALL cannot be true
  */
 const RUN_ALL = process.env.RUN_ALL === 'true';
-const QUERY_PATTERN: RegExp | null = process.env.QUERY_PATTERN !== '' ? RegExp(process.env.QUERY_PATTERN) : null;
+const QUERY_PATTERN: RegExp | null = process.env.QUERY_PATTERN ? RegExp(process.env.QUERY_PATTERN) : null;
 
 /**
  * Set to true to avoid using the GitHub API to post a comment
