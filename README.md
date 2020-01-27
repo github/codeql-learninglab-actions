@@ -28,17 +28,17 @@ including links to the lines of source code on GitHub when possible:
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [Creating your own course](#creating-your-own-course)
-  - [Creating the Query Checking Action](#creating-the-query-checking-action)
-    - [Testing the action](#testing-the-action)
-    - [Adding new queries & calculating the contents for the CSV files](#adding-new-queries--calculating-the-contents-for-the-csv-files)
-    - [Publishing your action](#publishing-your-action)
-  - [Contributing your GitHub Action to this repository](#contributing-your-github-action-to-this-repository)
-  - [Creating the Learning Lab Course](#creating-the-learning-lab-course)
-- [Example Courses](#example-courses)
-- [Contributing](#contributing)
-  - [Releasing new versions or updating dependencies](#releasing-new-versions-or-updating-dependencies)
-- [License](#license)
+  - [Creating your own course](#creating-your-own-course)
+    - [Creating the Query Checking Action](#creating-the-query-checking-action)
+      - [Testing the action](#testing-the-action)
+      - [Adding new queries & calculating the contents for the CSV files](#adding-new-queries--calculating-the-contents-for-the-csv-files)
+      - [Publishing your action](#publishing-your-action)
+    - [Contributing your GitHub Action to this repository](#contributing-your-github-action-to-this-repository)
+    - [Creating the Learning Lab Course](#creating-the-learning-lab-course)
+  - [Example Courses](#example-courses)
+  - [Contributing](#contributing)
+    - [Releasing new versions or updating dependencies](#releasing-new-versions-or-updating-dependencies)
+  - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -207,6 +207,11 @@ run either of these scripts:
   affect this specific course,
   without publishing any new images.
 
+Both scripts take as argument an **optional** regexp string.
+If this string is passed, only the queries 
+with names matching the regexp will be run.
+Otherwise all queries are run.
+
 **In GitHub Actions:**
 
 If adding a course to this repository,
@@ -329,4 +334,3 @@ as per the [terms & conditions](https://securitylab.github.com/tools/codeql/lice
 > **To generate CodeQL databases for or during automated analysis,
 > continuous integration or continuous delivery,
 > whether as part of normal software engineering processes or otherwise.**
-
