@@ -18,4 +18,3 @@ jobs:
       uses: ./.github/workflows/action
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        RUN_ALL: true
