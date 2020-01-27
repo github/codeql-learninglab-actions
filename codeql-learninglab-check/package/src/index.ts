@@ -22,7 +22,7 @@ const writeFile = promisify(fs.writeFile);
  * If specific queries should be run, RUN_ALL cannot be true
  */
 const RUN_ALL = process.env.RUN_ALL === 'true';
-const QUERY_PATTERN: RegExp = RegExp(String(process.env.QUERY_PATTERN));
+const QUERY_PATTERN: RegExp | null = process.env.QUERY_PATTERN !== '' ? RegExp(process.env.QUERY_PATTERN) : null;
 
 /**
  * Set to true to avoid using the GitHub API to post a comment
@@ -124,9 +124,8 @@ function isConfig(config: any): config is Config {
    */
   const queriesChanged = new Set<string>();
   let unableToGetChangedQueries = false;
-  let queryPattern = (process.env.QUERY_PATTERN!="");
 
-  if (!RUN_ALL && !queryPattern) {
+  if (!RUN_ALL && !QUERY_PATTERN) {
 
    /*
     * There are a few different ways in which we may determine which queries
@@ -277,7 +276,7 @@ function isConfig(config: any): config is Config {
   for (const query of Object.keys(config.expectedResults)) {
     const exists = await access(query, fs.constants.R_OK).then(() => true, () => false);
     // Run the query if either it's changed, or runAll is true
-    if (exists && (RUN_ALL || unableToGetChangedQueries || queriesChanged.has(query)) || (queryPattern && QUERY_PATTERN.test(query))) {
+    if (exists && (RUN_ALL || unableToGetChangedQueries || queriesChanged.has(query)) || (QUERY_PATTERN && QUERY_PATTERN.test(query))) {
       queriesToRun.push(query);
     }
   }
