@@ -8,7 +8,7 @@ jobs:
     name: Generate Table of Contents
     steps:
       - name: TOC Generator
-        uses: technote-space/toc-generator@v2.0.9
+        uses: technote-space/toc-generator@v2.0.5
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   test-courses-cpp-ctf-segv-actual:
