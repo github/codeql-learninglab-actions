@@ -7,6 +7,7 @@
     "13_macro_definitions.ql": "step-13.csv",
     "21_memcpy_calls.ql": "step-21.csv",
     "22_macro_invocations.ql": "step-22.csv",
-    "23_macro_expressions.ql": "step_23.csv"
+    "23_macro_expressions.ql": "step_23.csv",
+    "24_class_network_reads.ql": "step-24.csv"
   }
 }
