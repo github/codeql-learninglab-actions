@@ -23,10 +23,9 @@ DataFlow::Node use_alloca(boolean branch) {
   result.asExpr().(NotExpr).getOperand() = use_alloca(branch.booleanNot()).asExpr()
 }
 
-from GuardCondition guard, BasicBlock block, boolean branch, FunctionCall alloca
+from GuardCondition guard, boolean branch, FunctionCall alloca
 where
   guard = use_alloca(branch).asExpr() and
-  guard.controls(block, branch) and
-  alloca.getTarget().getName() = "__builtin_alloca" and
-  block.contains(alloca)
-select block, "safe call to __builtin_alloca"
+  guard.controls(alloca.getBasicBlock(), branch) and
+  alloca.getTarget().getName() = "__builtin_alloca"
+select alloca, "safe call to __builtin_alloca"
