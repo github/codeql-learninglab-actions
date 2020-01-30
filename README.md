@@ -28,18 +28,17 @@ including links to the lines of source code on GitHub when possible:
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [Actions for Learning Lab CodeQL Courses](#actions-for-learning-lab-codeql-courses)
-  - [Creating your own course](#creating-your-own-course)
-    - [Creating the Query Checking Action](#creating-the-query-checking-action)
-      - [Testing the action](#testing-the-action)
-      - [Adding new queries & calculating the contents for the CSV files](#adding-new-queries--calculating-the-contents-for-the-csv-files)
-      - [Publishing your action](#publishing-your-action)
-    - [Contributing your GitHub Action to this repository](#contributing-your-github-action-to-this-repository)
-    - [Creating the Learning Lab Course](#creating-the-learning-lab-course)
-  - [Example Courses](#example-courses)
-  - [Contributing](#contributing)
-    - [Releasing new versions or updating dependencies](#releasing-new-versions-or-updating-dependencies)
-  - [License](#license)
+- [Creating your own course](#creating-your-own-course)
+  - [Creating the Query Checking Action](#creating-the-query-checking-action)
+    - [Testing the action](#testing-the-action)
+    - [Adding new queries & calculating the contents for the CSV files](#adding-new-queries--calculating-the-contents-for-the-csv-files)
+    - [Publishing your action](#publishing-your-action)
+  - [Contributing your GitHub Action to this repository](#contributing-your-github-action-to-this-repository)
+  - [Creating the Learning Lab Course](#creating-the-learning-lab-course)
+- [Example Courses](#example-courses)
+- [Contributing](#contributing)
+  - [Releasing new versions or updating dependencies](#releasing-new-versions-or-updating-dependencies)
+- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
