@@ -9,6 +9,6 @@
     "22_macro_invocations.ql": "step-22.csv",
     "23_macro_expressions.ql": "step_23.csv",
     "24_class_network_reads.ql": "step-24.csv",
-    "31_taint_tracking": false
+    "31_taint_tracking.ql": "step-31.csv"
   }
 }
