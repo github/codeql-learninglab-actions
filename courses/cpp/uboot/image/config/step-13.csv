@@ -1,0 +1,5 @@
+"m","URL for m","col1"
+"#define ntohs(x) __bswap_16 (x)","file:///usr/x86_64-linux-gnu/include/netinet/in.h:402:1:402:34","a macro reading from the network"
+"#define ntohl(x) __bswap_32 (x)","file:///usr/x86_64-linux-gnu/include/netinet/in.h:401:1:401:34","a macro reading from the network"
+"#define ntohs(x) ___ntohs(x)","file:///opt/src/include/linux/byteorder/generic.h:142:1:142:28","a macro reading from the network"
+"#define ntohl(x) ___ntohl(x)","file:///opt/src/include/linux/byteorder/generic.h:140:1:140:28","a macro reading from the network"

@@ -1,0 +1,14 @@
+{
+  "databasePath": "u-boot_u-boot_d0d07ba",
+  "locationPaths": "https://github.com/u-boot/u-boot/blob/d0d07ba86afc8074d79e436b1ba4478fa0f0c1b5{path}#L{line-start}-L{line-end}",
+  "expectedResults": {
+    "11_function_definitions.ql": "step-11.csv",
+    "12_memcpy_definitions.ql": "step-12.csv",
+    "13_macro_definitions.ql": "step-13.csv",
+    "21_memcpy_calls.ql": "step-21.csv",
+    "22_macro_invocations.ql": "step-22.csv",
+    "23_macro_expressions.ql": "step_23.csv",
+    "24_class_network_reads.ql": "step-24.csv",
+    "31_taint_tracking.ql": "step-31.csv"
+  }
+}
