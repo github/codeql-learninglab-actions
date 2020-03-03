@@ -27,3 +27,15 @@ jobs:
       run: cd courses/cpp/ctf-segv/image && ./publish.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-courses-cpp-u-boot:
+    needs: publish-codeql-learninglab-check
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Build and Publish Course Docker Image
+      run: cd courses/cpp/uboot/image && ./publish.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
