@@ -34,12 +34,13 @@ it is recommended to take the
     1. Commit your changes and push to the repository
 1. In `<MY-COURSE-REPO>-template`:
     1. Update `.qlpack` with an appropriate pack name,
+       for example rename it `qlpack.yml`,
        and the language of the database that queries will be run against.
-    1. Create a `README.md` with e.g. some initial instructions for the user to
+    2. Create a `README.md` with e.g. some initial instructions for the user to
        go to their Issues tab to get more instructions.
-    1. Update `.github.to.move/workflows/action/Dockerfile` to reference the
+    3. Update `.github.to.move/workflows/action/Dockerfile` to reference the
        tag of the dockerfile from your [Query Checking Action:](../../README.md#creating-the-query-checking-action)
-1. Add your course to https://lab.github.com
+2. Add your course to https://lab.github.com
 
 ## Current limitations & workarounds
 
