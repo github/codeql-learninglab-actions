@@ -30,6 +30,14 @@ template:
  */
 const NEXT_MESSAGE = 'next.md';
 /**
+ * File in `responses/` that is used as the content for comments that are posted
+ * when a user fails a step.
+ *
+ * Makes use of the placeholders:
+ * * `{{commit}}` - Sha that was the head of the most recent PUSH
+ */
+const FAIL_MESSAGE = 'fail.md';
+/**
  * File in `responses/` that is used as the content for the comment that is
  * posted when a user finishes the last step.
  *
@@ -58,6 +66,7 @@ const END_MESSAGE = 'end.md';
  *   instructionsFile: string;
  *   title: string;
  *   description: string;
+ *   activitiesFiles: string[];
  * }>
  */
 const STEPS = [
@@ -66,14 +75,16 @@ const STEPS = [
     expectedResults: 3,
     instructionsFile: 'step-1.md',
     title: 'Your first query',
-    description: 'Write your first query'
+    description: 'Write your first query',
+    activitiesFiles: []
   },
   {
     queryFile: 'step-2.ql',
     expectedResults: 5,
     instructionsFile: 'step-2.md',
     title: 'Your second query',
-    description: 'Write your second query'
+    description: 'Write your second query',
+    activitiesFiles: []
   }
 ];
 
@@ -108,13 +119,23 @@ console.log(`
 before:
   - type: createIssue
     title: '${issueTitle(STEPS[0], 0)}'
-    body: ${STEPS[0].instructionsFile}
-steps:
-`.trim());
+    body: ${STEPS[0].instructionsFile}`);
+    if(STEPS[0].activitiesFiles.length > 0) {
+      console.log(`    comments:`);
+      STEPS[0].activitiesFiles.map( activityFile => {
+        console.log(`      - ${activityFile}`);
+      })
+    }
+console.log(`    action_id: step_1
+  - type: assignRegistrant
+    issue: '%actions.step_1.data.number%'
+
+steps:`);
 
 STEPS.map((step, i) => {
   // The markdown string to look for in the comment from github-actions[bot]
   const expectedString = `Results for \`${step.queryFile}\`: **correct** (${step.expectedResults} result${step.expectedResults === 1 ? '' : 's'})`;
+  const expectedIssue = `Results for \`${step.queryFile}\`:`;
   console.log(`
   - title: "${escapeDoubleQuoteYamlString(step.title)}"
     description: "${escapeDoubleQuoteYamlString(step.description)}"
@@ -126,12 +147,25 @@ STEPS.map((step, i) => {
         left: '%payload.sender.login%'
         operator: ===
         right: github-actions[bot]
+      # Ensure comment is relevant for this issue
+      - type: gate
+        left: '%payload.comment.body%'
+        operator: search
+        # regex-escape then yaml-escape the expected markdown string
+        right: "/${escapeDoubleQuoteYamlString(escapeRegExp(expectedIssue))}/"
       # Ensure comment has expected completed string
       - type: gate
         left: '%payload.comment.body%'
         operator: search
         # regex-escape then yaml-escape the expected markdown string
         right: "/${escapeDoubleQuoteYamlString(escapeRegExp(expectedString))}/"
+        else:
+          - type: respond
+            issue: "${escapeDoubleQuoteYamlString(issueTitle(step, i))}"
+            with: ${FAIL_MESSAGE}
+            data:
+              commit: '%payload.comment.commit_id%'
+              commentUrl: '%payload.comment.html_url%'
 
       # Answer is correct!!`);
 
@@ -182,8 +216,17 @@ STEPS.map((step, i) => {
       # Create Issue for next task
       - type: createIssue
         title: "${escapeDoubleQuoteYamlString(issueTitle(next, i + 1))}"
-        body: ${next.instructionsFile}
-        action_id: next_issue
+        body: ${next.instructionsFile}`);
+    if(next.activitiesFiles.length > 0) {
+      console.log(`        comments:`);
+    }
+    next.activitiesFiles.map(file => { 
+      console.log(`          - ${file}`)
+    })
+    console.log(`        action_id: next_issue
+
+      - type: assignRegistrant
+        issue: '%actions.next_issue.data.number%'
 
       # Make comment on current issue with link to commit that introduces correct query
       - type: respond

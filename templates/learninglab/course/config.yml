@@ -9,14 +9,19 @@ description: >-
 template:
   repo: <MY-COURSE-REPO>-template
   name: <MY-COURSE-REPO>
+
 before:
   - type: createIssue
     title: 'Step 1 - Your first query'
-    body: 01_function_definitions.md
+    body: step-1.md
+    action_id: step_1
+  - type: assignRegistrant
+    issue: '%actions.step_1.data.number%'
+
 steps:
 
   - title: "Your first query"
-    description: "Get set up using CodeQL, and run your first query"
+    description: "Write your first query"
     event: commit_comment.created
     link: '{{ repoUrl }}/issues/1'
     actions:
@@ -25,20 +30,36 @@ steps:
         left: '%payload.sender.login%'
         operator: ===
         right: github-actions[bot]
+      # Ensure comment is relevant for this issue
+      - type: gate
+        left: '%payload.comment.body%'
+        operator: search
+        # regex-escape then yaml-escape the expected markdown string
+        right: "/Results for `step-1\\.ql`\\:/"
       # Ensure comment has expected completed string
       - type: gate
         left: '%payload.comment.body%'
         operator: search
         # regex-escape then yaml-escape the expected markdown string
         right: "/Results for `step-1\\.ql`\\: \\*\\*correct\\*\\* \\(3 results\\)/"
+        else:
+          - type: respond
+            issue: "Step 1 - Your first query"
+            with: fail.md
+            data:
+              commit: '%payload.comment.commit_id%'
+              commentUrl: '%payload.comment.html_url%'
 
       # Answer is correct!!
 
       # Create Issue for next task
       - type: createIssue
-        title: "Step 2 - alloca definition"
-        body: 02_alloca_definition.md
+        title: "Step 2 - Your second query"
+        body: step-2.md
         action_id: next_issue
+
+      - type: assignRegistrant
+        issue: '%actions.next_issue.data.number%'
 
       # Make comment on current issue with link to commit that introduces correct query
       - type: respond
@@ -63,8 +84,8 @@ steps:
       - type: closeIssue
         issue: "Step 1 - Your first query"
 
-  - title: "alloca definition"
-    description: "write a query that looks for definitions of a macro"
+  - title: "Your second query"
+    description: "Write your second query"
     event: commit_comment.created
     link: '{{ repoUrl }}/issues'
     actions:
@@ -73,23 +94,36 @@ steps:
         left: '%payload.sender.login%'
         operator: ===
         right: github-actions[bot]
+      # Ensure comment is relevant for this issue
+      - type: gate
+        left: '%payload.comment.body%'
+        operator: search
+        # regex-escape then yaml-escape the expected markdown string
+        right: "/Results for `step-2\\.ql`\\:/"
       # Ensure comment has expected completed string
       - type: gate
         left: '%payload.comment.body%'
         operator: search
         # regex-escape then yaml-escape the expected markdown string
         right: "/Results for `step-2\\.ql`\\: \\*\\*correct\\*\\* \\(5 results\\)/"
+        else:
+          - type: respond
+            issue: "Step 2 - Your second query"
+            with: fail.md
+            data:
+              commit: '%payload.comment.commit_id%'
+              commentUrl: '%payload.comment.html_url%'
 
       # Answer is correct!!
 
 
       # Make comment on current issue with final message
       - type: respond
-        issue: "Step 2 - alloca definition"
+        issue: "Step 2 - Your second query"
         with: end.md
         data:
           commit: '%payload.comment.commit_id%'
 
       # Close current issue
       - type: closeIssue
-        issue: "Step 2 - alloca definition"
+        issue: "Step 2 - Your second query"
