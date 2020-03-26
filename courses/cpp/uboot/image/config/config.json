@@ -8,7 +8,7 @@
     "6_memcpy_calls.ql": "step-6.csv",
     "7_macro_invocations.ql": "step-7.csv",
     "8_macro_expressions.ql": "step-8.csv",
-    "9_class_network_reads.ql": "step-9.csv",
+    "9_class_network_byteswap.ql": "step-9.csv",
     "10_taint_tracking.ql": "step-10.csv"
   }
 }
