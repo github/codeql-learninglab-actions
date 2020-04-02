@@ -290,7 +290,7 @@ function isConfig(config: any): config is Config {
       // There are no changed queries and we didn't find any git diff
       // It's just the first run of the action
       comment += `\n Hey, I am the CodeQL check bot :robot:`
-      comment += `\n I'm looking forward to check your queries.`
+      comment += `\n I'm looking forward to check your queries.\n`
     } else {
       if (RUN_ALL) {
         comment += `\n None of the paths for any of the queries in the repository `;
