@@ -145,6 +145,8 @@ function isConfig(config: any): config is Config {
     *    default branch of the repo), then we should just run every query we
     *    recognize (as if RUN_ALL was true). We do this by setting
     *    unableToGetChangedQueries to true.
+    * 5. In this last case, if there is no changed query in the repo
+    *    then it means that this is just the course creation first workflow trigger.
     */
 
     /*
@@ -284,16 +286,23 @@ function isConfig(config: any): config is Config {
   console.log(`${pluralize(queriesToRun.length, 'query')} to run:`);
   if (queriesToRun.length === 0) {
     console.log('...Exiting');
-    if (RUN_ALL) {
-      comment += `\n None of the paths for any of the queries in the repository `;
+    if (unableToGetChangedQueries) {
+      // There are no changed queries and we didn't find any git diff
+      // It's just the first run of the action
+      comment += `\n Hey, I am the CodeQL check bot :robot:`
+      comment += `\n I'm looking forward to check your queries.`
     } else {
-      comment += `\n None of the paths for the queries that have been updated `;
-    };
-    comment += `are recognized as part of this course. `;
-    comment += `Perhaps you need to rename or move a \`.ql\` file? `;
-    comment += `The expected paths are: \n\n`;
-    for (const query of Object.keys(config.expectedResults)) {
-      comment += `* \`${query}\`\n`;
+      if (RUN_ALL) {
+        comment += `\n None of the paths for any of the queries in the repository `;
+      } else {
+        comment += `\n None of the paths for the queries that have been updated `;
+      };
+      comment += `are recognized as part of this course. `;
+      comment += `Perhaps you need to rename or move a \`.ql\` file? `;
+      comment += `The expected paths are: \n\n`;
+      for (const query of Object.keys(config.expectedResults)) {
+        comment += `* \`${query}\`\n`;
+      }
     }
     return await end();
   }
