@@ -289,8 +289,8 @@ function isConfig(config: any): config is Config {
     if (unableToGetChangedQueries) {
       // There are no changed queries and we didn't find any git diff
       // It's just the first run of the action
-      comment += `\n Hey, I am the CodeQL check bot :robot:`
-      comment += `\n I'm looking forward to check your queries.\n`
+      comment += `\n Hey, I am the CodeQL <span class="x x-first x-last">Learning Lab</span> bot :robot:`
+      comment += `\n I'm looking forward to <span class="x x-first x-last">checking</span> your queries<span class="x x-first x-last"> as you go through this course</span>.\n`
     } else {
       if (RUN_ALL) {
         comment += `\n None of the paths for any of the queries in the repository `;
