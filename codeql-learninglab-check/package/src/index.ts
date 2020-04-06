@@ -141,12 +141,8 @@ function isConfig(config: any): config is Config {
     *    the first time, and so there is no "previous ref"), then comparing this
     *    branch to the default branch of a repo will probably give the most
     *    accurate results.
-    * 4. Finally, if all else fails (e.g. the push was the initial push to the
-    *    default branch of the repo), then we should just run every query we
-    *    recognize (as if RUN_ALL was true). We do this by setting
-    *    unableToGetChangedQueries to true.
-    * 5. In this last case, if there is no changed query in the repo
-    *    then it means that this is just the course creation first workflow trigger.
+    * 4. Finally, if all else fails we set unableToGetChangedQueries to true.
+    *    It means that this is just the course creation first workflow trigger.
     */
 
     /*
@@ -278,7 +274,7 @@ function isConfig(config: any): config is Config {
   for (const query of Object.keys(config.expectedResults)) {
     const exists = await access(query, fs.constants.R_OK).then(() => true, () => false);
     // Run the query if either it's changed, or runAll is true
-    if (exists && (RUN_ALL || unableToGetChangedQueries || queriesChanged.has(query)) || (QUERY_PATTERN && QUERY_PATTERN.test(query))) {
+    if (exists && (RUN_ALL || queriesChanged.has(query)) || (QUERY_PATTERN && QUERY_PATTERN.test(query))) {
       queriesToRun.push(query);
     }
   }
