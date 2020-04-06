@@ -5,8 +5,8 @@ set -x
 
 docker login docker.pkg.github.com -u github-actions -p ${GITHUB_TOKEN}
 
-PREV_IMAGE_VERSION=v0.0.9
-IMAGE_VERSION=v0.0.10
+PREV_IMAGE_VERSION=v0.0.10
+IMAGE_VERSION=v1.0.0
 IMAGE_PATH=docker.pkg.github.com/github/codeql-learninglab-actions/codeql-learninglab-check
 IMAGE_TAG=${IMAGE_PATH}:${IMAGE_VERSION}
 
