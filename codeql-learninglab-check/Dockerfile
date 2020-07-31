@@ -26,10 +26,10 @@ RUN apt-get install -y nodejs
 # USER codeql
 
 # Add CodeQL repo
-RUN git clone https://github.com/Semmle/ql.git /home/codeql/codeql-home/codeql-repo
+RUN git clone https://github.com/github/codeql.git /home/codeql/codeql-home/codeql-repo
 
 WORKDIR /home/codeql/codeql-home/codeql-repo/
-RUN git checkout ed97be459fed23c9f07a0e1895176bad7ba6c686
+RUN git checkout c8dc2ee611c571d11999e2eb50bacd2b6e559829
 
 # Add and build code action code
 COPY --chown=codeql:codeql package /home/codeql/package
