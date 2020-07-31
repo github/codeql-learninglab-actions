@@ -11,7 +11,7 @@ RUN chown codeql:codeql ~codeql
 USER codeql
 WORKDIR /home/codeql
 RUN mkdir ~/codeql-home
-RUN wget --quiet https://github.com/github/codeql-cli-binaries/releases/download/v2.0.0/codeql.zip -O codeql-2.0.0.zip && unzip ~/codeql-2.0.0.zip -d /home/codeql/codeql-home/ && rm -f ~/codeql-2.0.0.zip && mv ~/codeql-home/codeql ~/codeql-home/codeql-cli
+RUN wget --quiet https://github.com/github/codeql-cli-binaries/releases/download/v2.2.4/codeql.zip -O codeql-2.2.4.zip && unzip ~/codeql-2.2.4.zip -d /home/codeql/codeql-home/ && rm -f ~/codeql-2.2.4.zip && mv ~/codeql-home/codeql ~/codeql-home/codeql-cli
 
 ENV PATH="/home/codeql/codeql-home/codeql-cli/:${PATH}"
 
