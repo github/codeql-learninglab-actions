@@ -18,19 +18,19 @@ This docker image bundles a number of elements:
 * **Dependency:** Some debian packages, importantly including Node v12.
 * **Dependency:** The CodeQL CLI binaries from
   [`codeql-cli-binaries`](https://github.com/github/codeql-cli-binaries/releases)
-* **Dependency:** A checkout of the [`Semmle/ql`](https://github.com/Semmle/ql)
+* **Dependency:** A checkout of the [`GitHub/codeql`](https://github.com/github/codeql)
   repository, pinned to a specific version.
 * The core action JavaScript/TypeScript code from [`package/`](package),
   and all its NPM dependencies.
 
 ## Updating the CodeQL dependencies
 
-You will want to make sure that the versions of the CodeQL CLI and `Semmle/ql`
+You will want to make sure that the versions of the CodeQL CLI and `GitHub/codeql`
 are compatible.
 
 * **Updating the CodeQL CLI**: Modify the URL for the CLI in
   [`Dockerfile`](Dockerfile).
-* **Updating the `Semmle/ql` repo**: Update the `RUN git checkout <ref>` line in
+* **Updating the `GitHub/codeql` repo**: Update the `RUN git checkout <ref>` line in
   [`Dockerfile`](Dockerfile) to a git sha / reference that is compatible with
   the version of the CodeQL CLI that is in use.
 

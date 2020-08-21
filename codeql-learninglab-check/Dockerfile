@@ -1,4 +1,4 @@
-FROM ubuntu:19.04
+FROM ubuntu:20.04
 
 RUN apt-get update
 RUN apt-get install -y wget unzip
@@ -11,7 +11,7 @@ RUN chown codeql:codeql ~codeql
 USER codeql
 WORKDIR /home/codeql
 RUN mkdir ~/codeql-home
-RUN wget --quiet https://github.com/github/codeql-cli-binaries/releases/download/v2.0.0/codeql.zip -O codeql-2.0.0.zip && unzip ~/codeql-2.0.0.zip -d /home/codeql/codeql-home/ && rm -f ~/codeql-2.0.0.zip && mv ~/codeql-home/codeql ~/codeql-home/codeql-cli
+RUN wget --quiet https://github.com/github/codeql-cli-binaries/releases/download/v2.2.4/codeql.zip -O codeql-2.2.4.zip && unzip ~/codeql-2.2.4.zip -d /home/codeql/codeql-home/ && rm -f ~/codeql-2.2.4.zip && mv ~/codeql-home/codeql ~/codeql-home/codeql-cli
 
 ENV PATH="/home/codeql/codeql-home/codeql-cli/:${PATH}"
 
@@ -26,10 +26,10 @@ RUN apt-get install -y nodejs
 # USER codeql
 
 # Add CodeQL repo
-RUN git clone https://github.com/Semmle/ql.git /home/codeql/codeql-home/codeql-repo
+RUN git clone https://github.com/github/codeql.git /home/codeql/codeql-home/codeql-repo
 
 WORKDIR /home/codeql/codeql-home/codeql-repo/
-RUN git checkout ed97be459fed23c9f07a0e1895176bad7ba6c686
+RUN git checkout c8dc2ee611c571d11999e2eb50bacd2b6e559829
 
 # Add and build code action code
 COPY --chown=codeql:codeql package /home/codeql/package
