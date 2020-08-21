@@ -49,7 +49,7 @@ Following changes to the [`codeql-learninglab-check`](codeql-learninglab-check)
 base docker image,
 you'll likely want to update each of the individual courses to use the latest
 version.
-(This will be neccesary for users to take advantage of the latest changes to
+(This will be necessary for users to take advantage of the latest changes to
 the CodeQL libraries or tools).
 You can do this by updating the `FROM` line in the respective `Dockerfile`.
 
