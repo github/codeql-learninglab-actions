@@ -22,6 +22,12 @@ template:
 
 /**
  * File in `responses/` that is used as the content for comments that are posted
+ * when a user finishes the setup phase.
+ *
+ */
+const INTRO_OK_MESSAGE = 'setup-ok.md';
+/**
+ * File in `responses/` that is used as the content for comments that are posted
  * when a user finishes a step.
  *
  * Makes use of the placeholders:
@@ -45,6 +51,24 @@ const FAIL_MESSAGE = 'fail.md';
  * * `{{commit}}` - Sha that was the head of the most recent PUSH
  */
 const END_MESSAGE = 'end.md';
+
+/**
+ * Setup steps of this course. 
+ * Each of this step consists in a `.md` file that introduce the 
+ * course, describe the setup ... before the actual query writing begins
+ */
+const INTRO_ISSUES = [
+  {
+    title: 'Welcome!',
+    instructionsFile: 'step1-welcome.md',
+    activitiesFiles: []
+  },
+  {
+    title: 'Set up your IDE',
+    instructionsFile: 'step2-setup.md',
+    activitiesFiles: ['2-1.md']
+  }
+]
 
 /**
  * Each of the steps of this course, each step must have:
@@ -100,7 +124,7 @@ console.log(META.trim());
  * @param step {{title: string;}}
  * @param i {number}
  */
-const issueTitle = (step, i) => `Step ${i + 1} - ${step.title}`;
+const issueTitle = (step, i) => `Step ${i + 1 + INTRO_ISSUES.length} - ${step.title}`;
 
 /**
  * @param str {string}
@@ -117,20 +141,53 @@ const escapeDoubleQuoteYamlString = (str) =>
 
 console.log(`
 before:
-  - type: createIssue
-    title: '${issueTitle(STEPS[0], 0)}'
-    body: ${STEPS[0].instructionsFile}`);
-    if(STEPS[0].activitiesFiles.length > 0) {
-      console.log(`    comments:`);
-      STEPS[0].activitiesFiles.map( activityFile => {
-        console.log(`      - ${activityFile}`);
-      })
-    }
-console.log(`    action_id: step_1
-  - type: assignRegistrant
-    issue: '%actions.step_1.data.number%'
+# Create Issues for introduction`);
 
-steps:`);
+INTRO_ISSUES.map((issue, i) => {
+  console.log(` 
+  - type: createIssue
+    title: ${issue.title}
+    body: ${issue.instructionsFile}
+    action_id: intro_${i}`);
+  if (issue.activitiesFiles.length > 0) {
+    console.log(`    comments:`);
+    issue.activitiesFiles.map(activityFile => {
+      console.log(`      - ${activityFile}`);
+    })
+  }
+  console.log(`
+  - type: assignRegistrant
+    issue: '%actions.intro_${i}.data.number%'`)
+})
+console.log(` 
+  - type: createIssue
+    title: "${escapeDoubleQuoteYamlString(issueTitle(STEPS[0], 0))}"
+    body: ${STEPS[0].instructionsFile}
+    action_id: step_0`);
+if (STEPS[0].activitiesFiles.length > 0) {
+  console.log(`    comments:`);
+  STEPS[0].activitiesFiles.map(activityFile => {
+    console.log(`      - ${activityFile}`);
+  })
+}
+console.log(`
+  - type: assignRegistrant
+    issue: '%actions.step_0.data.number%'`)
+
+console.log(`
+steps:
+  - title: "Welcome to the course"
+    description: "Know where to find documentation and help, install CodeQL, setup your IDE."
+    event: issues.closed
+    link: '{{ repoUrl }}/issues/1'
+    actions:
+      - type: gate
+        left: '%payload.issue.title%'
+        operator: search
+        right: "${escapeDoubleQuoteYamlString(INTRO_ISSUES[INTRO_ISSUES.length - 1].title)}"
+      - type: respond
+        issue: "${escapeDoubleQuoteYamlString(INTRO_ISSUES[INTRO_ISSUES.length - 1].title)}"
+        with: ${INTRO_OK_MESSAGE}`);
 
 STEPS.map((step, i) => {
   // The markdown string to look for in the comment from github-actions[bot]
@@ -140,7 +197,7 @@ STEPS.map((step, i) => {
   - title: "${escapeDoubleQuoteYamlString(step.title)}"
     description: "${escapeDoubleQuoteYamlString(step.description)}"
     event: commit_comment.created
-    link: '{{ repoUrl }}/issues${i === 0 ? '/1' : ''}'
+    link: '{{ repoUrl }}/issues/'
     actions:
       # Ensure comment is posted by github-actions
       - type: gate
@@ -166,7 +223,7 @@ STEPS.map((step, i) => {
             data:
               commit: '%payload.comment.commit_id%'
               commentUrl: '%payload.comment.html_url%'
-
+  
       # Answer is correct!!`);
 
   /* The following is disabled for now as Learning Lab is using ^15.18.3 of
@@ -216,11 +273,9 @@ STEPS.map((step, i) => {
       # Create Issue for next task
       - type: createIssue
         title: "${escapeDoubleQuoteYamlString(issueTitle(next, i + 1))}"
-        body: ${next.instructionsFile}`);
-    if(next.activitiesFiles.length > 0) {
-      console.log(`        comments:`);
-    }
-    next.activitiesFiles.map(file => { 
+        body: ${next.instructionsFile}
+        comments:`);
+    next.activitiesFiles.map(file => {
       console.log(`          - ${file}`)
     })
     console.log(`        action_id: next_issue
@@ -243,9 +298,9 @@ STEPS.map((step, i) => {
         repo: '%payload.repository.name%'
         sha: '%payload.comment.commit_id%'
         body: |
-          Congratulations, looks like the query you introduced for step ${i + 1} finds the correct results!
+          Congratulations, looks like the query you introduced for step ${INTRO_ISSUES.length + i + 1} finds the correct results!
 
-          Take a look at the [instructions for the next step](%actions.next_issue.data.html_url%) to continue.
+          Merge this Pull Request (unless you're on master), and take a look at the [instructions for the next step](%actions.next_issue.data.html_url%) to continue.
 
       # Close current issue
       - type: closeIssue
