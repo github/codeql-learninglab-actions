@@ -37,4 +37,4 @@ WORKDIR /home/codeql/package
 RUN npm install
 RUN npm run build
 
-ENTRYPOINT ["nodejs", "/home/codeql/package/build"]
+ENTRYPOINT ["node", "/home/codeql/package/build"]
