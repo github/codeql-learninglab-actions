@@ -37,7 +37,7 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Login to docker
-      run: docker login docker.pkg.github.com -u github-actions -p ${{ secrets.GITHUB_TOKEN }}
+      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u github-actions --password-stdin
 
     - name: Build Images & Run Queries
       run: cd templates/action && ../../scripts/test-course-actual.sh
