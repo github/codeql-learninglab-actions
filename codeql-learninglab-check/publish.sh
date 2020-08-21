@@ -3,7 +3,7 @@
 set -e
 set -x
 
-docker login docker.pkg.github.com -u github-actions -p ${GITHUB_TOKEN}
+echo ${GITHUB_TOKEN} | docker login docker.pkg.github.com -u github-actions --password-stdin
 
 PREV_IMAGE_VERSION=v1.0.0
 IMAGE_VERSION=v1.1.0
