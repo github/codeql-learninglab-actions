@@ -1,5 +1,5 @@
 name: 'Check queries'
-description: 'Check that the queries that have been pushed'
+description: 'Check the queries that have been pushed'
 author: 'GitHub <opensource+codeql-learninglab-actions@github.com>'
 runs:
   using: 'docker'
