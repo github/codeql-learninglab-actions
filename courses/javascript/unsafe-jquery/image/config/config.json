@@ -1,5 +1,7 @@
 {
   "databasePath": "esbena_bootstrap-pre-27047_204f9cf",
   "locationPaths": "https://github.com/esbena/bootstrap-pre-27047/blob/204f9cf910d09b97b4075893e6da807443b55e03{path}#L{line-start}-L{line-end}",
-  "expectedResults": { }
+  "expectedResults": { 
+    "calls-to-dollar.ql": false
+  }
 }
