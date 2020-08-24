@@ -1,2 +1,6 @@
 "sink","URL for sink","source","URL for source","sink","URL for sink","col3"
 "... + ...","file:///opt/src/iconv/gconv_conf.c:323:25:323:50","call to _IO_new_fopen","file:///opt/src/iconv/gconv_conf.c:369:14:369:36","... + ...","file:///opt/src/iconv/gconv_conf.c:323:25:323:50","fopen flows to alloca"
+"real_sizeof_reqdata","file:///opt/src/nscd/nscd_helper.c:178:24:178:42","call to iruserfopen","file:///opt/src/inet/rcmd.c:528:13:528:23","real_sizeof_reqdata","file:///opt/src/nscd/nscd_helper.c:178:24:178:42","fopen flows to alloca"
+"real_sizeof_reqdata","file:///opt/src/nscd/nscd_helper.c:178:24:178:42","call to iruserfopen","file:///opt/src/inet/rcmd.c:562:16:562:26","real_sizeof_reqdata","file:///opt/src/nscd/nscd_helper.c:178:24:178:42","fopen flows to alloca"
+"real_sizeof_reqdata","file:///opt/src/nscd/nscd_helper.c:178:24:178:42","call to _IO_new_fopen","file:///opt/src/inet/rcmd.c:483:13:483:31","real_sizeof_reqdata","file:///opt/src/nscd/nscd_helper.c:178:24:178:42","fopen flows to alloca"
+"real_sizeof_reqdata","file:///opt/src/nscd/nscd_helper.c:178:24:178:42","call to fopen","file:///opt/src/nscd/nscd_conf.c:68:8:68:12","real_sizeof_reqdata","file:///opt/src/nscd/nscd_helper.c:178:24:178:42","fopen flows to alloca"

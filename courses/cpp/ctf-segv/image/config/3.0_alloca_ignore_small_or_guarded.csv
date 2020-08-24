@@ -106,7 +106,6 @@
 "call to __builtin_alloca","file:///opt/src/locale/programs/ld-ctype.c:3893:39:3894:43","call to alloca"
 "call to __builtin_alloca","file:///opt/src/locale/programs/locarchive.c:1142:32:1142:45","call to alloca"
 "call to __builtin_alloca","file:///opt/src/locale/programs/locarchive.c:895:23:895:48","call to alloca"
-"call to __builtin_alloca","file:///opt/src/locale/programs/locarchive.c:1013:20:1013:30","call to alloca"
 "call to __builtin_alloca","file:///opt/src/locale/programs/locfile.c:372:19:372:30","call to alloca"
 "call to __builtin_alloca","file:///opt/src/locale/programs/locfile.c:164:21:164:51","call to alloca"
 "call to __builtin_alloca","file:///opt/src/malloc/memusagestat.c:166:17:166:32","call to alloca"
