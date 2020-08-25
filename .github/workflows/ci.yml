@@ -11,25 +11,6 @@ jobs:
         uses: technote-space/toc-generator@v2.1.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  test-courses-cpp-ctf-segv-actual:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-
-    - name: Login to docker
-      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u github-actions --password-stdin
-
-    - name: Build Images & Run Queries
-      run: cd courses/cpp/ctf-segv && ../../../scripts/test-course-actual.sh
-  test-courses-cpp-ctf-segv-latest:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-
-    - name: Build Images & Run Queries
-      run: cd courses/cpp/ctf-segv && ../../../scripts/test-course-latest.sh
   test-courses-template-actual:
     runs-on: ubuntu-latest
     steps:
