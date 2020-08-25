@@ -1,4 +1,8 @@
 "sink","URL for sink","source","URL for source","sink","URL for sink","col3"
+"len","file:///opt/src/cmd/nvedit_efi.c:280:28:280:30","... ? ... : ...","file:///opt/src/net/net.c:1586:6:1586:13","len","file:///opt/src/cmd/nvedit_efi.c:280:28:280:30","ntoh flows to memcpy"
+"len","file:///opt/src/cmd/nvedit_efi.c:280:28:280:30","... ? ... : ...","file:///opt/src/net/net.c:1575:13:1575:27","len","file:///opt/src/cmd/nvedit_efi.c:280:28:280:30","ntoh flows to memcpy"
+"len","file:///opt/src/cmd/nvedit_efi.c:321:34:321:36","... ? ... : ...","file:///opt/src/net/net.c:1586:6:1586:13","len","file:///opt/src/cmd/nvedit_efi.c:321:34:321:36","ntoh flows to memcpy"
+"len","file:///opt/src/cmd/nvedit_efi.c:321:34:321:36","... ? ... : ...","file:///opt/src/net/net.c:1575:13:1575:27","len","file:///opt/src/cmd/nvedit_efi.c:321:34:321:36","ntoh flows to memcpy"
 "... - ...","file:///opt/src/drivers/net/netconsole.c:161:37:161:47","... ? ... : ...","file:///opt/src/net/net.c:1306:5:1306:22","... - ...","file:///opt/src/drivers/net/netconsole.c:161:37:161:47","ntoh flows to memcpy"
 "chunk","file:///opt/src/drivers/net/netconsole.c:164:34:164:38","... ? ... : ...","file:///opt/src/net/net.c:1306:5:1306:22","chunk","file:///opt/src/drivers/net/netconsole.c:164:34:164:38","ntoh flows to memcpy"
 "len","file:///opt/src/net/net.c:1009:50:1009:52","... ? ... : ...","file:///opt/src/net/net.c:913:8:913:24","len","file:///opt/src/net/net.c:1009:50:1009:52","ntoh flows to memcpy"
