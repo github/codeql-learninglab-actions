@@ -3,6 +3,7 @@
   "locationPaths": "https://github.com/esbena/bootstrap-pre-27047/blob/204f9cf910d09b97b4075893e6da807443b55e03{path}#L{line-start}-L{line-end}",
   "expectedResults": { 
     "calls-to-dollar.ql": "calls-to-dollar.csv",
-    "calls-to-dollar-arg.ql": "calls-to-dollar-arg.csv"
+    "calls-to-dollar-arg.ql": "calls-to-dollar-arg.csv",
+    "dollar-arg-node.ql": "dollar-arg-node.csv"
   }
 }

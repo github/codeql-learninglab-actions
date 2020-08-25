@@ -1,4 +1,4 @@
-FROM docker.pkg.github.com/github/codeql-learninglab-actions/codeql-learninglab-check:v1.1.0
+FROM docker.pkg.github.com/github/codeql-learninglab-actions/codeql-learninglab-check:v2.0.0
 
 ## Add course config
 COPY --chown=codeql:codeql config /home/codeql/config
