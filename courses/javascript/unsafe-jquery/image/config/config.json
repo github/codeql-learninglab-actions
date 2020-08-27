@@ -6,6 +6,7 @@
     "calls-to-dollar-arg.ql": "calls-to-dollar-arg.csv",
     "dollar-arg-node.ql": "dollar-arg-node.csv",
     "property-read.ql": "property-read.csv",
-    "jquery-plugins.ql": "jquery-plugins.csv"
+    "jquery-plugins.ql": "jquery-plugins.csv",
+    "plugin-options.ql": "plugin-options.csv"
   }
 }
