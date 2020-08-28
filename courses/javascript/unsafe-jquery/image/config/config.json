@@ -8,6 +8,7 @@
     "property-read.ql": "property-read.csv",
     "jquery-plugins.ql": "jquery-plugins.csv",
     "plugin-options.ql": "plugin-options.csv",
-    "sources.ql": "sources.csv"
+    "sources.ql": "sources.csv",
+    "final.ql": "final.csv"
   }
 }
