@@ -308,7 +308,9 @@ function isConfig(config: any): config is Config {
   // Upgrade the database if neccesary
   const databasePath = path.join(CONFIG_PATH, config.databasePath);
   console.log('Upgrading CodeQL Database');
-  await execFile('codeql', ['database', 'upgrade', databasePath]);
+  const updateResult = await execFile('codeql', ['database', 'upgrade', '-v', databasePath]);
+  console.log(updateResult.stderr);
+  console.log(updateResult.stdout);
 
   const csvPath = (queryPath: string) => path.join(OUTPUT_PATH, queryPath + '.csv');
 

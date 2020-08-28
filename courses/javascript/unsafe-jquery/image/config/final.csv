@@ -1,0 +1,6 @@
+"sink","URL for sink","source","URL for source","sink","URL for sink","col3"
+"this.options.target","file:///opt/src/js/affix.js:19:22:19:40","option","file:///opt/src/js/affix.js:119:19:119:24","this.options.target","file:///opt/src/js/affix.js:19:22:19:40","Potential XSS vulnerability in plugin."
+"this.options.parent","file:///opt/src/js/collapse.js:140:14:140:32","option","file:///opt/src/js/collapse.js:170:19:170:24","this.options.parent","file:///opt/src/js/collapse.js:140:14:140:32","Potential XSS vulnerability in plugin."
+"selector","file:///opt/src/js/scrollspy.js:113:20:113:27","option","file:///opt/src/js/scrollspy.js:136:19:136:24","selector","file:///opt/src/js/scrollspy.js:113:20:113:27","Potential XSS vulnerability in plugin."
+"this.selector","file:///opt/src/js/scrollspy.js:127:7:127:19","option","file:///opt/src/js/scrollspy.js:136:19:136:24","this.selector","file:///opt/src/js/scrollspy.js:127:7:127:19","Potential XSS vulnerability in plugin."
+"$.isFun ... ewport)","file:///opt/src/js/tooltip.js:54:49:54:193","option","file:///opt/src/js/tooltip.js:494:19:494:24","$.isFun ... ewport)","file:///opt/src/js/tooltip.js:54:49:54:193","Potential XSS vulnerability in plugin."
