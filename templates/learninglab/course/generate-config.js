@@ -300,7 +300,7 @@ STEPS.map((step, i) => {
         body: |
           Congratulations, looks like the query you introduced for step ${INTRO_ISSUES.length + i + 1} finds the correct results!
 
-          Merge this Pull Request (unless you're on master), and take a look at the [instructions for the next step](%actions.next_issue.data.html_url%) to continue.
+          Merge this Pull Request (unless you're on the default branch), and take a look at the [instructions for the next step](%actions.next_issue.data.html_url%) to continue.
 
       # Close current issue
       - type: closeIssue
