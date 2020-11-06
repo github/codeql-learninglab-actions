@@ -3,7 +3,7 @@ description: 'Check that the queries that have been pushed produce the correct r
 author: 'GitHub <opensource+codeql-learninglab-actions@github.com>'
 runs:
   using: 'docker'
-  image: 'docker://docker.pkg.github.com/github/codeql-learninglab-actions/courses-java-codeql-and-chill'
+  image: 'docker://docker.pkg.github.com/github/codeql-learninglab-actions/courses-java-bean-validation-ssti'
 branding:
   icon: 'check-circle'
   color: 'purple'
