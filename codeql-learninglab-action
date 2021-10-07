@@ -1,0 +1,1 @@
+docker pull ghcr.io/github/codeql-learninglab-actions/courses-javascript-unsafe-jquery:latest
