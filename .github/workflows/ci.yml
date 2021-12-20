@@ -15,10 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     - name: Login to docker
-      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u github-actions --password-stdin
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: echo "$GITHUB_TOKEN" | docker login docker.pkg.github.com -u github-actions --password-stdin
 
     - name: Build Images & Run Queries
       run: cd templates/action && ../../scripts/test-course-actual.sh
@@ -26,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     - name: Build Images & Run Queries
       run: cd templates/action && ../../scripts/test-course-latest.sh
