@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     - name: Build and Publish Query Checking Docker Image
       run: cd codeql-learninglab-check && ./publish.sh
@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     - name: Build and Publish Course Docker Image
       run: cd courses/cpp/ctf-segv/image && ./publish.sh
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     - name: Build and Publish Course Docker Image
       run: cd courses/cpp/uboot/image && ./publish.sh
@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     - name: Build and Publish Course Docker Image
       run: cd courses/javascript/unsafe-jquery/image && ./publish.sh
