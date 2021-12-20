@@ -7,11 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
       # TODO: delete once published action used below
     - name: Login to docker
-      run: docker login docker.pkg.github.com -u github-actions -p ${{ secrets.GITHUB_TOKEN }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: echo "$GITHUB_TOKEN" | docker login docker.pkg.github.com -u github-actions --password-stdin
 
       # TODO: use published action in github/codeql-learninglab-actions/courses/...
     - name: Check answers
