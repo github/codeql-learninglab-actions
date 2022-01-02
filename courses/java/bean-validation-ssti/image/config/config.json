@@ -1,0 +1,6 @@
+{
+  "databasePath": "titus-control-plane-db",
+  "locationPaths": "https://github.com/Netflix/titus-control-plane/blob/8a8bd4c1b4b63e17520804c6f7f6278252bf5a5b{path}#L{line-start}-L{line-end}",
+  "expectedResults": {
+  }
+}

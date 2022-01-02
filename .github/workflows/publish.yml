@@ -50,3 +50,14 @@ jobs:
       run: cd courses/javascript/unsafe-jquery/image && ./publish.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  publish-courses-java-bean-validation-ssti:
+    needs: publish-codeql-learninglab-check
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Build and Publish Course Docker Image
+      run: cd courses/java/bean-validation-ssti/image && ./publish.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

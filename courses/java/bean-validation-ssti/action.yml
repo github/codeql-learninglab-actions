@@ -1,0 +1,9 @@
+name: 'Check queries'
+description: 'Check that the queries that have been pushed produce the correct results'
+author: 'GitHub <opensource+codeql-learninglab-actions@github.com>'
+runs:
+  using: 'docker'
+  image: 'docker://docker.pkg.github.com/github/codeql-learninglab-actions/courses-java-bean-validation-ssti'
+branding:
+  icon: 'check-circle'
+  color: 'purple'
